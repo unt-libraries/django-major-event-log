@@ -1,5 +1,5 @@
-db.sqlite3
-manage.py
-mysite
-templates
+/db.sqlite3
+/manage.py
+/mysite
+/templates
 *.pyc

@@ -1,0 +1,56 @@
+{% extends "major-event-log/base.html" %}
+
+{% block title %}Event Details{% endblock %}
+
+{% block content %}
+	<div class="page-header">
+		<h1>Details for {{ event.id }}</h1>
+	</div>
+	<table class="table table-striped">
+		<tr>
+			<th><b>Title</b></th>
+			<td>{{ event.title }}</td>
+		</tr>
+		<tr>
+			<th><b>Details</b></th>
+			<td>{{ event.detail }}</td>
+		</tr>
+		<tr>
+			<th><b>ID</b></th>
+			<td>{{ event.id }}</td>
+		</tr>
+		<tr>
+			<th><b>Outcome</b></th>
+		{% if event.get_outcome_display == 'Success' %}
+			<td><span class="label label-success">{{ event.get_outcome_display }}</span></td>
+		{% else %}
+			<td><span class="label label-danger">{{ event.get_outcome_display }}</span></td>
+		{% endif %}
+		</tr>
+		<tr>
+			<th><b>Outcome Details</b></th>
+			<td>{{ event.outcome_detail }}</td>
+		</tr>
+		<tr>
+			<th><b>Event Date</b></th>
+			<td>{{ event.date }}</td>
+		</tr>
+		<tr>
+			<th><b>Created</b></th>
+			<td>{{ event.entry_created }}</td>
+		</tr>
+		<tr>
+			<th><b>Modified</b></th>
+			<td>{{ event.entry_modified }}</td>
+		</tr>
+		<tr>
+			<th><b>Contact Name</b></th>
+			<td>{{ event.contact_name }}</td>
+		</tr>
+		<tr>
+			<th><b>Contact Email</b></th>
+			<td>{{ event.contact_email }}</td>
+		</tr>
+	</table>
+	{% include "major-event-log/button_grp_bottom.html" %}
+{% endblock %}
