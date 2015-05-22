@@ -1,10 +1,11 @@
+from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.test import TestCase
 
 from .models import Event
 
 
-class URLsToViewsTests(TestCase):
+class TestURLsToViews(TestCase):
     """Tests to make sure that URLS get directed to the right views.
 
     Verifies that the correct information is captured from the urls,
@@ -52,7 +53,7 @@ class URLsToViewsTests(TestCase):
                 '/nothing/',
                 '/major-event-log/nothing/',
                 '/major-event-log/event/',
-                '/major-event-log/event/NOTHING/',
+                '/major-event-log/event/nothing/',
                 '/major-event-log/feed/nothing/',
                 '/major-event-log/about/nothing/']
         responses = []
@@ -61,24 +62,31 @@ class URLsToViewsTests(TestCase):
         for response in responses:
             self.assertEqual(response.status_code, 404)
 
-    def test_invalid_uuids(self):
-        """Check that uuid's that don't exist in the db are handled."""
-        pass
+    def test_uuid_match(self):
+        """Check that uuid not in db receives an HTTP 404."""
+        uuid = '88888888-4444-4444-a444-121212121212'
+        response = (self.client.get('/major-event-log/' + uuid + '/'))
+        self.assertEqual(response.status_code, 404)
 
     def test_url_uuid_catch(self):
         """Check that the uuid gets caught correctly by the regex."""
-        pass
+        uuid = '88888888-4444-4444-a444-121212121212'
+        url = reverse('major-event-log:event_detail', kwargs={'event_id': uuid})
+        self.assertIn(uuid, url)
 
     def test_correct_templates_used(self):
         """Check that the right templates are used by the views."""
         pass
 
 
-class ContentProducedTests(TestCase):
+class TestContentProduced(TestCase):
     """Tests to make sure contect is being produced correctly."""
     pass
 
 
-class ModelInteractionTests(TestCase):
+class TestModelInteraction(TestCase):
     """Tests that all interactions with the model proceed correctly."""
     pass
+#----------------------------------------------------------------------------------------------------
+"""Remove hardcoded URLs"""
+#---------------------------------------------------------------------------------------------------
