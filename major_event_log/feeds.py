@@ -7,11 +7,20 @@ from django.utils.feedgenerator import Atom1Feed
 from .models import Event
 
 
+class MajorEventLogFeed(Atom1Feed):
+    """Custom Atom Feed for Event objects.
+
+    The only change between this custom feed and the base Atom1Feed
+    is that this feed specifies its mime_type as 'application/xml'.
+    """
+    mime_type = 'application/xml'
+
+
 class LatestEventsFeed(Feed):
-    # ATOM feed.
-    feed_type = Atom1Feed
+    # Custom Atom feed.
+    feed_type = MajorEventLogFeed
     # Required tags by the ATOM feed.
-    title = "PREMIS major event log"
+    title = "PREMIS Major Event Log"
     link = "/major-event-log/"
     subtitle = "10 most recent major PREMIS events."
 
