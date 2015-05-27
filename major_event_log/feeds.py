@@ -26,4 +26,4 @@ class LatestEventsFeed(Feed):
         return item.detail
 
     def item_link(self, item):
-        return reverse('major-event-log:event_detail', args=[item.pk])
+        return reverse('major-event-log:event_details', args=[item.pk])

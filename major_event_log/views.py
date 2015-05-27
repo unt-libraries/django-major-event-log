@@ -3,8 +3,6 @@
 These views will call the render the appropriate web pages based on
 templates defined in the 'templates/major-event-log' directory.
 """
-import re
-
 from django.http import Http404
 from django.shortcuts import render
 
@@ -18,14 +16,14 @@ def index(request):
     return render(request, 'major-event-log/index.html', context)
 
 
-def event_detail(request, event_id):
+def event_details(request, event_id):
     """Loads the event details page of the event with the given id."""
     try:
         event = Event.objects.get(id=event_id)
     except Event.DoesNotExist:
         raise Http404
     context = {'event': event}
-    return render(request, 'major-event-log/event_detail.html', context)
+    return render(request, 'major-event-log/event_details.html', context)
 
 
 def event_atom(request, event_id):
