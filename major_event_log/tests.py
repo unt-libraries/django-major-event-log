@@ -1,3 +1,5 @@
+import xml.etree.ElementTree as ET
+
 from django.core.urlresolvers import reverse, resolve
 from django.utils import timezone
 from django.test import TestCase
@@ -127,6 +129,7 @@ class TestContentProduced(TestCase):
         event = create_event()
         response = self.client.get(reverse('major-event-log:event_details',
                                            args=[event.id]))
+        # Check that the correct event is passed in the context.
         self.assertEqual(response.context['event'], event)
 
     def test_event_atom_content(self):
@@ -138,7 +141,10 @@ class TestContentProduced(TestCase):
         event = create_event()
         response = self.client.get(reverse('major-event-log:event_atom',
                                            args=[event.id]))
+        # Check that the correct event is passed in the context.
         self.assertEqual(response.context['event'], event)
+        # Make sure that the atom xml has the expected structure.
+        atom = ET.fromstring(response.content)
 
     def test_event_premis_content(self):
         """Check the content of the event_premis page.
@@ -149,7 +155,10 @@ class TestContentProduced(TestCase):
         event = create_event()
         response = self.client.get(reverse('major-event-log:event_premis',
                                            args=[event.id]))
+        # Check that the correct event is passed in the context.
         self.assertEqual(response.context['event'], event)
+        # Make sure that the premis event has the expected structure.
+        atom = ET.fromstring(response.content)
 
     def test_feed_content(self):
         """Check that the feed creates a properly formed atom feed.
@@ -162,6 +171,9 @@ class TestContentProduced(TestCase):
         for i in range(11):
             events.append(create_event())
         response = self.client.get(reverse('major-event-log:feed'))
+        # Check that only the last ten events are passed in the context.
         self.assertNotContains(response, events[0].id)
         for event in events[1:]:
             self.assertContains(response, event.id)
+        # Make sure that the atom feed has the expected structure.
+        atom = ET.fromstring(response.content)
