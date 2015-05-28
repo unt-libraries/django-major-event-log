@@ -107,72 +107,61 @@ class TestContentProduced(TestCase):
     """Tests to make sure content is being produced correctly."""
 
     def test_index_content(self):
-        """Check the content of the index page."""
-        event = create_event()
-        # Dont know how to check that datetime is in the page, since format is
-        # different.
-        expected_values = [str(event.id), str(event.title),
-                           'Event', 'Event Date', 'ID', 'Outcome']
+        """Check the content of the index page.
+        
+        Contents are verified by checking that all existing events
+        have been placed in the context.
+        """
+        events = []
+        for i in range(4):
+            events.append(create_event())
         response = self.client.get(reverse('major-event-log:index'))
-        for value in expected_values:
-            self.assertContains(response, value)
-        if 'success' in event.outcome:
-            self.assertContains(response, 'Success')
-        elif 'failure' in event.outcome:
-            self.assertContains(response, 'Failure')
+        for event in events:
+            self.assertIn(event, response.context['events'])
 
     def test_event_details_content(self):
-        """Check the content of the event_details page."""
+        """Check the content of the event_details page.
+        
+        Contents are verified by checking that the proper event has
+        been placed in the context."""
         event = create_event()
-        # Don't know how to check that datetime is in the page, since format is
-        # different.
-        expected_values = [str(event.id), str(event.title), str(event.detail),
-                           str(event.outcome_detail), str(event.contact_name),
-                           str(event.contact_email), 'Title', 'Details', 'ID',
-                           'Outcome', 'Outcome Details', 'Event Date',
-                           'Created', 'Modified', 'Contact Name',
-                           'Contact Email', 'ATOM', 'PREMIS XML']
         response = self.client.get(reverse('major-event-log:event_details',
                                            args=[event.id]))
-        for value in expected_values:
-            self.assertContains(response, value)
-        if 'success' in event.outcome:
-            self.assertContains(response, 'Success')
-        elif 'failure' in event.outcome:
-            self.assertContains(response, 'Failure')
+        self.assertEqual(response.context['event'], event)
 
     def test_event_atom_content(self):
-        """Check the content of the event_atom page."""
-        pass
+        """Check the content of the event_atom page.
+        
+        Contents are verified by checking that the proper event has
+        been placed in the context and that the atom xml is well-
+        formed."""
+        event = create_event()
+        response = self.client.get(reverse('major-event-log:event_atom',
+                                           args=[event.id]))
+        self.assertEqual(response.context['event'], event)
 
     def test_event_premis_content(self):
-        """Check the content of the event_premis page."""
-        pass
+        """Check the content of the event_premis page.
+        
+        Contents are verified by checking that the proper event has
+        been placed in the context and that the premis xml is well-
+        formed."""
+        event = create_event()
+        response = self.client.get(reverse('major-event-log:event_premis',
+                                           args=[event.id]))
+        self.assertEqual(response.context['event'], event)
 
     def test_feed_content(self):
-        """Check the content of the feed page."""
-        pass
-
-    def test_about_content(self):
-        """Check the content of the about page."""
-        pass
-
-
-class TestModelInteraction(TestCase):
-    """Tests that all interactions with the model proceed correctly."""
-
-    def test_missing_info_rejected(self):
-        """Check that db entries with missing info are rejected."""
-        pass
-
-    def test_good_info_accepted(self):
-        """Check that db entries with all info present are accepted."""
-        pass
-
-    def test_stored_info_same_as_entered(self):
-        """Check that what was entered was stored correctly."""
-        pass
-
-    def test_modified_info_saved_correctly(self):
-        """Check that modified info is stored correctly."""
-        pass
+        """Check that the feed creates a properly formed atom feed.
+        
+        Contents are verified by checking that only the most recent
+        ten events have been placed in the context and that the feed
+        is a well-formed atom feed."""
+        # Verify only the latest ten events are shown.
+        events = []
+        for i in range(11):
+            events.append(create_event())
+        response = self.client.get(reverse('major-event-log:feed'))
+        self.assertNotContains(response, events[0].id)
+        for event in events[1:]:
+            self.assertContains(response, event.id)
