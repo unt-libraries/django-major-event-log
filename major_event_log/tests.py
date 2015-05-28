@@ -138,6 +138,14 @@ class TestContentProduced(TestCase):
         Contents are verified by checking that the proper event has
         been placed in the context and that the atom xml is well-
         formed."""
+        namespace = {'default': 'http://www.w3.org/2005/Atom'}
+        expected_xml_structure = [
+            './default:title',
+            './default:id',
+            './default:updated',
+            './default:author/default:name',
+            './default:content'
+        ]
         event = create_event()
         response = self.client.get(reverse('major-event-log:event_atom',
                                            args=[event.id]))
@@ -145,6 +153,8 @@ class TestContentProduced(TestCase):
         self.assertEqual(response.context['event'], event)
         # Make sure that the atom xml has the expected structure.
         atom = ET.fromstring(response.content)
+        for xpath in expected_xml_structure:
+            self.assertIsNotNone(atom.find(xpath, namespace))
 
     def test_event_premis_content(self):
         """Check the content of the event_premis page.
@@ -152,6 +162,18 @@ class TestContentProduced(TestCase):
         Contents are verified by checking that the proper event has
         been placed in the context and that the premis xml is well-
         formed."""
+        namespace = {'premis': 'info:lc/xmlns/premis-v2'}
+        expected_premis_structure = [
+            './premis:eventDetail',
+            './premis:eventOutcomeInformation/premis:eventOutcomeDetail',
+            './premis:eventOutcomeInformation/premis:eventOutcome',
+            './premis:eventType',
+            './premis:linkingAgentIdentifier/premis:linkingAgentIdentifierValue',
+            './premis:linkingAgentIdentifier/premis:linkingAgentIdentifierType',
+            './premis:eventIdentifier/premis:eventIdentifierValue',
+            './premis:eventIdentifier/premis:eventIdentifierType',
+            './premis:eventDateTime'
+        ]
         event = create_event()
         response = self.client.get(reverse('major-event-log:event_premis',
                                            args=[event.id]))
@@ -159,14 +181,23 @@ class TestContentProduced(TestCase):
         self.assertEqual(response.context['event'], event)
         # Make sure that the premis event has the expected structure.
         atom = ET.fromstring(response.content)
+        for xpath in expected_premis_structure:
+            self.assertIsNotNone(atom.find(xpath, namespace))
 
     def test_feed_content(self):
         """Check that the feed creates a properly formed atom feed.
         
         Contents are verified by checking that only the most recent
-        ten events have been placed in the context and that the feed
-        is a well-formed atom feed."""
-        # Verify only the latest ten events are shown.
+        ten events have been placed in the context."""
+        namespace = {'default': 'http://www.w3.org/2005/Atom'}
+        expected_feed_structure = [
+            './default:title',
+            './default:link',
+            './default:id',
+            './default:updated',
+            './default:subtitle',
+            './default:entry'
+        ]
         events = []
         for i in range(11):
             events.append(create_event())
@@ -175,5 +206,7 @@ class TestContentProduced(TestCase):
         self.assertNotContains(response, events[0].id)
         for event in events[1:]:
             self.assertContains(response, event.id)
-        # Make sure that the atom feed has the expected structure.
+        # Make sure that the premis event has the expected structure.
         atom = ET.fromstring(response.content)
+        for xpath in expected_feed_structure:
+            self.assertIsNotNone(atom.find(xpath, namespace))
