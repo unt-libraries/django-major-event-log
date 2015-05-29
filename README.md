@@ -58,4 +58,20 @@ Installation
 
 2.  Install
 
-    Install with `pip install command`
+    Install with `pip install https://github.com/unt-libraries/django-major-event-log`
+    
+License
+-------------------------
+
+See LICENSE
+
+Contributors
+-------------------------
+
+Django-major-event-log was developed at the UNT Libraries.
+
+Contributors:
+
+* [Mark Phillips](https://github.com/vphill)
+* [Gio Gottardi](https://github.com/somexpert)
+
