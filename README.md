@@ -54,7 +54,7 @@ Installation
 1.  Download Source
 
     To get the application, download the source code from the Github repository
-    [here](http://example.com).
+    [here](https://github.com/unt-libraries/django-major-event-log).
 
 2.  Install
 
