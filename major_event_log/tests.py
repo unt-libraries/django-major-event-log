@@ -110,7 +110,7 @@ class TestContentProduced(TestCase):
 
     def test_index_content(self):
         """Check the content of the index page.
-        
+
         Contents are verified by checking that all existing events
         have been placed in the context.
         """
@@ -123,7 +123,7 @@ class TestContentProduced(TestCase):
 
     def test_event_details_content(self):
         """Check the content of the event_details page.
-        
+
         Contents are verified by checking that the proper event has
         been placed in the context."""
         event = create_event()
@@ -134,7 +134,7 @@ class TestContentProduced(TestCase):
 
     def test_event_atom_content(self):
         """Check the content of the event_atom page.
-        
+
         Contents are verified by checking that the proper event has
         been placed in the context and that the atom xml is well-
         formed."""
@@ -158,21 +158,21 @@ class TestContentProduced(TestCase):
 
     def test_event_premis_content(self):
         """Check the content of the event_premis page.
-        
+
         Contents are verified by checking that the proper event has
         been placed in the context and that the premis xml is well-
         formed."""
-        namespace = {'premis': 'info:lc/xmlns/premis-v2'}
+        namespace = {'prms': 'info:lc/xmlns/premis-v2'}
         expected_premis_structure = [
-            './premis:eventDetail',
-            './premis:eventOutcomeInformation/premis:eventOutcomeDetail',
-            './premis:eventOutcomeInformation/premis:eventOutcome',
-            './premis:eventType',
-            './premis:linkingAgentIdentifier/premis:linkingAgentIdentifierValue',
-            './premis:linkingAgentIdentifier/premis:linkingAgentIdentifierType',
-            './premis:eventIdentifier/premis:eventIdentifierValue',
-            './premis:eventIdentifier/premis:eventIdentifierType',
-            './premis:eventDateTime'
+            './prms:eventDetail',
+            './prms:eventOutcomeInformation/prms:eventOutcomeDetail',
+            './prms:eventOutcomeInformation/prms:eventOutcome',
+            './prms:eventType',
+            './prms:linkingAgentIdentifier/prms:linkingAgentIdentifierValue',
+            './prms:linkingAgentIdentifier/prms:linkingAgentIdentifierType',
+            './prms:eventIdentifier/prms:eventIdentifierValue',
+            './prms:eventIdentifier/prms:eventIdentifierType',
+            './prms:eventDateTime'
         ]
         event = create_event()
         response = self.client.get(reverse('major-event-log:event_premis',
@@ -186,7 +186,7 @@ class TestContentProduced(TestCase):
 
     def test_feed_content(self):
         """Check that the feed creates a properly formed atom feed.
-        
+
         Contents are verified by checking that only the most recent
         ten events have been placed in the context."""
         namespace = {'default': 'http://www.w3.org/2005/Atom'}
