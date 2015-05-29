@@ -1,11 +1,11 @@
-(Pre-release!!!) Django Major Event Log App (Pre-release!!!)
-============================================================
-
 Notice!
 ------------------------------------------------------------
 
-This application is still being developed! Major components are still in an
-unfinished state!
+**This application is still being developed! Major components are still in an
+unfinished state!**
+
+Django Major Event Log App
+============================================================
 
 About
 --------------------------
