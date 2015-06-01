@@ -53,7 +53,6 @@ class TestURLsToViews(TestCase):
         urls = ('/nothing/',
                 '/major-event-log/nothing/',
                 '/major-event-log/event/',
-                '/major-event-log/event/nothing/',
                 '/major-event-log/feed/nothing/',
                 '/major-event-log/about/nothing/')
         for url in urls:
