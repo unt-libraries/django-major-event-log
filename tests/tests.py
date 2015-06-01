@@ -4,8 +4,8 @@ from django.core.urlresolvers import reverse, resolve
 from django.utils import timezone
 from django.test import TestCase
 
-from .models import Event
-from . import views
+from major_event_log.models import Event
+from major_event_log import views
 
 
 def create_event(title='test', outcome='Success', name='John Doe'):
