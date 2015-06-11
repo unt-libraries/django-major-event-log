@@ -13,7 +13,7 @@ from .models import Event
 
 
 def get_event_or_404(event_id):
-    """Checks that the event_id is a valid uuid instance."""
+    """Retrieves event, if possible. If not, raises http 404 response."""
     try:
         uuid.UUID(event_id)
     except ValueError:
