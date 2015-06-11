@@ -48,29 +48,6 @@ class TestURLsToViews(TestCase):
         for url in urls:
             self.assertEqual(self.client.get(url).status_code, 200)
 
-    def test_invalid_urls(self):
-        """Check that invalid URL requests get an HTTP 404."""
-        urls = ('/nothing/',
-                '/major-event-log/nothing/',
-                '/major-event-log/event/',
-                '/major-event-log/feed/nothing/',
-                '/major-event-log/about/nothing/')
-        for url in urls:
-            self.assertEqual(self.client.get(url).status_code, 404)
-
-    def test_uuid_match(self):
-        """Check that uuid not in db receives an HTTP 404."""
-        uuid = '88888888-4444-4444-a444-121212121212'
-        response = self.client.get(reverse('major-event-log:event_details',
-                                           args=[uuid]))
-        self.assertEqual(response.status_code, 404)
-
-    def test_url_uuid_catch(self):
-        """Check that the uuid gets caught correctly by the regex."""
-        uuid = '88888888-4444-4444-a444-121212121212'
-        url = reverse('major-event-log:event_details', args=[uuid])
-        self.assertIn(uuid, url)
-
     def test_correct_view_called(self):
         """Check that urls are resolved to the correct views."""
         uuid = '88888888-4444-4444-a444-121212121212'
