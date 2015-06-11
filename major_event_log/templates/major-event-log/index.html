@@ -9,22 +9,23 @@
 	<table class="table table-striped table-hover">
 		<thead>
 			<tr>
+                <th>ID</th>
+                <th>Event Date</th>
 				<th>Event</th>
-				<th>Event Date</th>
-				<th>ID</th>
 				<th>Outcome</th>
 			</tr>
 		</thead>
 		<tbody>
 		{% for event in events %}
 			<tr>
-				<td><a href="{% url 'major-event-log:event_details' event.id %}">{{ event.title }}</a></td>
+				<td style="font-family:monospace"><a href="{% url
+                'major-event-log:event_details' event.id %}">{{ event.id|truncatechars:16 }}</a></td>
 				<td>{{ event.date }}</td>
-				<td>{{ event.id }}</td>
+				<td>{{ event.title }}</td>
 				{% if event.get_outcome_display == 'Success' %}
-				<td><span class="label label-success">{{ event.get_outcome_display }}</span></td>
+				<td style="font-family:monospace"><span class="label label-success">{{ event.get_outcome_display }}</span></td>
 				{% else %}
-				<td><span class="label label-danger">{{ event.get_outcome_display }}</span></td>
+				<td style="font-family:monospace"><span class="label label-danger">{{ event.get_outcome_display }}</span></td>
 				{% endif %}
 			</tr>
 		{% endfor %}
