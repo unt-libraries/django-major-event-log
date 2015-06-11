@@ -8,19 +8,18 @@ from django.conf.urls import url
 from . import views
 from . import feeds
 
-re = r'[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}'
 
 urlpatterns = [
     # Matches root index of app ('/').
     url(r'^$', views.index, name='index'),
     # Matches urls like 'event/123a-4b56c-78d.premis.xml'.
-    url(r'^event/(?P<event_id>' + re + ')\.premis\.xml$',
+    url(r'^event/(?P<event_id>.*?)\.premis\.xml$',
         views.event_premis, name='event_premis'),
     # Matches urls like 'event/123a-4b56c-78d.xml'.
-    url(r'^event/(?P<event_id>' + re + ')\.xml$', views.event_atom,
+    url(r'^event/(?P<event_id>.*?)\.xml$', views.event_atom,
         name='event_atom'),
     # Matches urls like 'event/123a-4b56c-78d/'.
-    url(r'^event/(?P<event_id>' + re + ')/$', views.event_details,
+    url(r'^event/(?P<event_id>.*?)/$', views.event_details,
         name='event_details'),
     # Matches 'feed/'.
     url(r'^feed/$', feeds.LatestEventsFeed(), name='feed'),
