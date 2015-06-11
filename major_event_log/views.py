@@ -11,6 +11,7 @@ from django.http import Http404
 
 from .models import Event
 
+
 def is_uuid(event_id):
     """Checks that the event_id is a valid uuid instance."""
     try:
@@ -18,6 +19,7 @@ def is_uuid(event_id):
     except ValueError:
         return False
     return True
+
 
 def index(request):
     """Loads the index, or 'home page' of the major event log app."""
@@ -28,7 +30,7 @@ def index(request):
 
 def event_details(request, event_id):
     """Loads the event details page of the event with the given id."""
-    if is_uuid(event_id) == True:
+    if is_uuid(event_id) is True:
         event = get_object_or_404(Event.objects, id=event_id)
     else:
         raise Http404("Invalid event id")
@@ -38,7 +40,7 @@ def event_details(request, event_id):
 
 def event_atom(request, event_id):
     """Loads the ATOM record for the event with the given id."""
-    if is_uuid(event_id) == True:
+    if is_uuid(event_id) is True:
         event = get_object_or_404(Event.objects, id=event_id)
     else:
         raise Http404("Invalid event id")
@@ -51,7 +53,7 @@ def event_atom(request, event_id):
 
 def event_premis(request, event_id):
     """Loads the PREMIS event item for the event with the given id."""
-    if is_uuid(event_id) == True:
+    if is_uuid(event_id) is True:
         event = get_object_or_404(Event.objects, id=event_id)
     else:
         raise Http404("Invalid event id")
