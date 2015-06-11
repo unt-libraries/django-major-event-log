@@ -12,13 +12,13 @@ from django.http import Http404
 from .models import Event
 
 
-def is_uuid(event_id):
+def get_event_or_404(event_id):
     """Checks that the event_id is a valid uuid instance."""
     try:
         uuid.UUID(event_id)
     except ValueError:
-        return False
-    return True
+        raise Http404("Invalid event id")
+    return get_object_or_404(Event.objects, id=event_id)
 
 
 def index(request):
@@ -30,20 +30,14 @@ def index(request):
 
 def event_details(request, event_id):
     """Loads the event details page of the event with the given id."""
-    if is_uuid(event_id) is True:
-        event = get_object_or_404(Event.objects, id=event_id)
-    else:
-        raise Http404("Invalid event id")
+    event = get_event_or_404(event_id)
     context = {'event': event}
     return render(request, 'major-event-log/event_details.html', context)
 
 
 def event_atom(request, event_id):
     """Loads the ATOM record for the event with the given id."""
-    if is_uuid(event_id) is True:
-        event = get_object_or_404(Event.objects, id=event_id)
-    else:
-        raise Http404("Invalid event id")
+    event = get_event_or_404(event_id)
     event_detail_url = request.build_absolute_uri(
         reverse('major-event-log:event_details', args=[event_id]))
     context = {'event': event, 'full_url': event_detail_url}
@@ -53,10 +47,7 @@ def event_atom(request, event_id):
 
 def event_premis(request, event_id):
     """Loads the PREMIS event item for the event with the given id."""
-    if is_uuid(event_id) is True:
-        event = get_object_or_404(Event.objects, id=event_id)
-    else:
-        raise Http404("Invalid event id")
+    event = get_event_or_404(event_id)
     context = {'event': event}
     return render(request, 'major-event-log/event_premis.xml', context,
                   content_type='text/xml; charset=utf-8')
