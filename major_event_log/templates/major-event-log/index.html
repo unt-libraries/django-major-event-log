@@ -18,8 +18,7 @@
 		<tbody>
 		{% for event in events %}
 			<tr>
-				<td style="font-family:monospace"><a href="{% url
-                'major-event-log:event_details' event.id %}">{{ event.id|truncatechars:16 }}</a></td>
+				<td style="font-family:monospace"><a href="{% url 'major-event-log:event_details' event.id %}">{{ event.id|truncatechars:16 }}</a></td>
 				<td>{{ event.date }}</td>
 				<td>{{ event.title }}</td>
 				{% if event.get_outcome_display == 'Success' %}
