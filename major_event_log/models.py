@@ -1,10 +1,12 @@
 """Model definition.
 
 The Event class defines all the data required in order to create a
-majore PREMIS event.
+major PREMIS event.
 """
 import uuid
+
 from django.db import models
+from django.core.urlresolvers import reverse
 
 
 class Event(models.Model):
@@ -29,6 +31,9 @@ class Event(models.Model):
     contact_name = models.CharField(max_length=100, help_text=
                                     "Name will appear as the Reporting Agent")
     contact_email = models.EmailField()
+
+    def get_absolute_url(self):
+        return(reverse('major-event-log:event_details', args=[self.id]))
 
     class Meta:
         ordering = ["date"]

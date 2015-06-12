@@ -1,12 +1,31 @@
 """Defines all the views, which load the requested pages.
 
-These views will call the render the appropriate web pages based on
+These views will render the appropriate web pages based on
 templates defined in the 'templates/major-event-log' directory.
 """
+import uuid
+
+from django.shortcuts import render, get_object_or_404
 from django.http import Http404
-from django.shortcuts import render
 
 from .models import Event
+
+
+def get_event_or_404(event_id):
+    """Retrieves event, if possible. If not, raises HTTP 404 response.
+
+    Checks two separate things related to the given event_id. The first
+    is that the event_id is a well-formed UUID. If the event_id is a
+    valid UUID, then the get_object_or_404 function is called to check
+    that the valid UUID actually refers to an event that has already
+    been created in the db. If either of these checks fail, then an
+    HTTP 404 response is sent.
+    """
+    try:
+        uuid.UUID(event_id)
+    except ValueError:
+        raise Http404("Invalid event ID")
+    return get_object_or_404(Event.objects, id=event_id)
 
 
 def index(request):
@@ -17,33 +36,24 @@ def index(request):
 
 
 def event_details(request, event_id):
-    """Loads the event details page of the event with the given id."""
-    try:
-        event = Event.objects.get(id=event_id)
-    except Event.DoesNotExist:
-        raise Http404
+    """Loads the event details page of the event with the given ID."""
+    event = get_event_or_404(event_id)
     context = {'event': event}
     return render(request, 'major-event-log/event_details.html', context)
 
 
 def event_atom(request, event_id):
-    """Loads the ATOM record for the event with the given id."""
-    try:
-        event = Event.objects.get(id=event_id)
-    except Event.DoesNotExist:
-        raise Http404
-    context = {'event': event,
-               'full_url': request.build_absolute_uri()[:-5] + '/'}
+    """Loads the Atom record for the event with the given ID."""
+    event = get_event_or_404(event_id)
+    event_detail_url = request.build_absolute_uri(event.get_absolute_url())
+    context = {'event': event, 'event_details_url': event_detail_url}
     return render(request, 'major-event-log/event_atom.xml', context,
                   content_type='text/xml; charset=utf-8')
 
 
 def event_premis(request, event_id):
-    """Loads the PREMIS event item for the event with the given id."""
-    try:
-        event = Event.objects.get(id=event_id)
-    except Event.DoesNotExist:
-        raise Http404
+    """Loads the PREMIS event item for the event with the given ID."""
+    event = get_event_or_404(event_id)
     context = {'event': event}
     return render(request, 'major-event-log/event_premis.xml', context,
                   content_type='text/xml; charset=utf-8')
