@@ -6,7 +6,6 @@ templates defined in the 'templates/major-event-log' directory.
 import uuid
 
 from django.shortcuts import render, get_object_or_404
-from django.core.urlresolvers import reverse
 from django.http import Http404
 
 from .models import Event
