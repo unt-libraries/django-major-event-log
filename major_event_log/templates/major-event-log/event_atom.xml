@@ -1,6 +1,6 @@
 <entry xmlns="http://www.w3.org/2005/Atom">
     <title>{{ event.id }}</title>
-    <id>{{ full_url }}</id>
+    <id>{{ event_details_url }}</id>
     <updated>{{ event.entry_modified }}</updated>
     <author>
         <name>UNT Libraries</name>

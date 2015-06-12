@@ -13,7 +13,15 @@ from .models import Event
 
 
 def get_event_or_404(event_id):
-    """Retrieves event, if possible. If not, raises http 404 response."""
+    """Retrieves event, if possible. If not, raises http 404 response.
+
+    Checks two separate things related to the given event_id. The first
+    is that the event_id is a well-formed uuid. If the event_id is a
+    valid uuid, then the get_object_or_404 function is called to check
+    that the valid uuid actually refers to an event that has already
+    been created in the db. If either of these checks fail, then an
+    http 404 response is sent.
+    """
     try:
         uuid.UUID(event_id)
     except ValueError:
@@ -36,11 +44,10 @@ def event_details(request, event_id):
 
 
 def event_atom(request, event_id):
-    """Loads the ATOM record for the event with the given id."""
+    """Loads the Atom record for the event with the given id."""
     event = get_event_or_404(event_id)
-    event_detail_url = request.build_absolute_uri(
-        reverse('major-event-log:event_details', args=[event_id]))
-    context = {'event': event, 'full_url': event_detail_url}
+    event_detail_url = request.build_absolute_uri(event.get_absolute_url())
+    context = {'event': event, 'event_details_url': event_detail_url}
     return render(request, 'major-event-log/event_atom.xml', context,
                   content_type='text/xml; charset=utf-8')
 
