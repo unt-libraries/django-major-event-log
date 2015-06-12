@@ -95,14 +95,12 @@ class TestURLsToViews(TestCase):
 
     def test_get_event_or_404_with_invalid_uuid(self):
         """Check that the function returns 404 for invalid UUID."""
-        non_uuids = (
-            'abcd-1234',  # Incorrect length.
-            'd7768443-04e2-45d2-b71f-2b716bf13f1z'  # Wrong char 'z'.
-        )
+        # Test with an id that is too short.
         with self.assertRaises(Http404):
-            views.get_event_or_404(non_uuids[0])
+            views.get_event_or_404('abcd-1234')
+        # Test with an id that has non hexadecimal values.
         with self.assertRaises(Http404):
-            views.get_event_or_404(non_uuids[1])
+            views.get_event_or_404('z7768443-04z2-45q2-y71m-2w716px13uzz')
 
     def test_get_absolute_url(self):
         """Check that the method returns the expected absolute URL.
