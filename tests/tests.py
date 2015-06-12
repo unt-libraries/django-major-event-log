@@ -30,10 +30,10 @@ def create_event(title='test', outcome='Success', name='John Doe'):
 
 
 class TestURLsToViews(TestCase):
-    """Tests to make sure that URLS get directed to the right views.
+    """Tests to make sure that URLs get directed to the right views.
 
-    Verifies that the correct information is captured from the urls,
-    that the urls get directed correctly (or that the correct error
+    Verifies that the correct information is captured from the URLs,
+    that the URLs get directed correctly (or that the correct error
     is displayed), and that the correct templates get used.
     """
 
@@ -50,7 +50,7 @@ class TestURLsToViews(TestCase):
             self.assertEqual(self.client.get(url).status_code, 200)
 
     def test_correct_view_called(self):
-        """Check that urls are resolved to the correct views."""
+        """Check that URLs are resolved to the correct views."""
         uuid = '88888888-4444-4444-a444-121212121212'
         urls = ((reverse('major-event-log:index'),
                  views.index),
@@ -82,19 +82,19 @@ class TestURLsToViews(TestCase):
             self.assertTemplateUsed(self.client.get(url), template)
 
     def test_get_event_or_404_with_uuid_in_db(self):
-        """Check that an event is returned when an existing uuid is given."""
+        """Check that an event is returned when an existing UUID is given."""
         uuid = str(create_event().id)
         event = views.get_event_or_404(uuid)
         self.assertIsInstance(event, Event)
 
     def test_get_event_or_404_with_uuid_not_in_db(self):
-        """Check that the function returns 404 for uuid not in db."""
+        """Check that the function returns 404 for UUID not in db."""
         uuid = 'd7768443-04e2-45d2-b71f-2b716bf13f13'
         with self.assertRaises(Http404):
             views.get_event_or_404(uuid)
 
     def test_get_event_or_404_with_invalid_uuid(self):
-        """Check that the function returns 404 for invalid uuid."""
+        """Check that the function returns 404 for invalid UUID."""
         non_uuids = (
             'abcd-1234',  # Incorrect length.
             'd7768443-04e2-45d2-b71f-2b716bf13f1z'  # Wrong char 'z'.
@@ -105,9 +105,9 @@ class TestURLsToViews(TestCase):
             views.get_event_or_404(non_uuids[1])
 
     def test_get_absolute_url(self):
-        """Check that the method returns the expected absolute url.
+        """Check that the method returns the expected absolute URL.
 
-        This method should return the url of the event details page
+        This method should return the URL of the event details page
         for that specific event.
         """
         event = create_event()
@@ -146,7 +146,7 @@ class TestContentProduced(TestCase):
         """Check the content of the event_atom page.
 
         Contents are verified by checking that the proper event has
-        been placed in the context and that the atom xml is well-
+        been placed in the context and that the Atom XML is well-
         formed."""
         namespace = {'default': 'http://www.w3.org/2005/Atom'}
         expected_xml_structure = [
@@ -161,7 +161,7 @@ class TestContentProduced(TestCase):
                                            args=[event.id]))
         # Check that the correct event is passed in the context.
         self.assertEqual(response.context['event'], event)
-        # Make sure that the atom xml has the expected structure.
+        # Make sure that the Atom XML has the expected structure.
         atom = ET.fromstring(response.content)
         for xpath in expected_xml_structure:
             self.assertIsNotNone(atom.find(xpath, namespace))
@@ -170,7 +170,7 @@ class TestContentProduced(TestCase):
         """Check the content of the event_premis page.
 
         Contents are verified by checking that the proper event has
-        been placed in the context and that the premis xml is well-
+        been placed in the context and that the PREMIS XML is well-
         formed."""
         namespace = {'prms': 'info:lc/xmlns/premis-v2'}
         expected_premis_structure = [
@@ -189,13 +189,13 @@ class TestContentProduced(TestCase):
                                            args=[event.id]))
         # Check that the correct event is passed in the context.
         self.assertEqual(response.context['event'], event)
-        # Make sure that the premis event has the expected structure.
+        # Make sure that the PREMIS event has the expected structure.
         atom = ET.fromstring(response.content)
         for xpath in expected_premis_structure:
             self.assertIsNotNone(atom.find(xpath, namespace))
 
     def test_feed_content(self):
-        """Check that the feed creates a properly formed atom feed.
+        """Check that the feed creates a properly formed Atom feed.
 
         Contents are verified by checking that only the most recent
         ten events have been placed in the context."""
@@ -216,7 +216,7 @@ class TestContentProduced(TestCase):
         self.assertNotContains(response, events[0].id)
         for event in events[1:]:
             self.assertContains(response, event.id)
-        # Make sure that the premis event has the expected structure.
+        # Make sure that the PREMIS event has the expected structure.
         atom = ET.fromstring(response.content)
         for xpath in expected_feed_structure:
             self.assertIsNotNone(atom.find(xpath, namespace))

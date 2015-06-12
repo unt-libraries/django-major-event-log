@@ -1,4 +1,4 @@
-"""Creates the ATOM feed for the major premis events events."""
+"""Creates the Atom feed for the major PREMIS events."""
 
 from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse
@@ -10,7 +10,7 @@ from .models import Event
 class MajorEventLogFeed(Atom1Feed):
     """Custom Atom Feed for Event objects.
 
-    The only change between this custom feed and the base Atom1Feed
+    The only change between this custom feed and the base Atom Feed
     is that this feed specifies its mime_type as 'application/xml'.
     """
     mime_type = 'application/xml'
@@ -19,7 +19,7 @@ class MajorEventLogFeed(Atom1Feed):
 class LatestEventsFeed(Feed):
     # Custom Atom feed.
     feed_type = MajorEventLogFeed
-    # Required tags by the ATOM feed.
+    # Required tags by the Atom feed.
     title = "PREMIS Major Event Log"
     link = "/major-event-log/"
     subtitle = "10 most recent major PREMIS events."

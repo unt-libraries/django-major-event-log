@@ -1,7 +1,7 @@
 """Model definition.
 
 The Event class defines all the data required in order to create a
-majore PREMIS event.
+major PREMIS event.
 """
 import uuid
 
