@@ -81,27 +81,28 @@ class TestURLsToViews(TestCase):
         for url, template in urls:
             self.assertTemplateUsed(self.client.get(url), template)
 
-    def test_get_event_or_404_uuid_in_db(self):
+    def test_get_event_or_404_with_uuid_in_db(self):
         """Check that the function returns 404 for any non-existant id."""
         uuid = str(create_event().id)
         event = views.get_event_or_404(uuid)
         self.assertIsInstance(event, Event)
 
-    def test_get_event_or_404_uuid_not_in_db(self):
+    def test_get_event_or_404_with_uuid_not_in_db(self):
         """Check that the function returns 404 for uuid not in db."""
         uuid = 'd7768443-04e2-45d2-b71f-2b716bf13f13'
         with self.assertRaises(Http404):
             views.get_event_or_404(uuid)
 
-    def test_get_event_or_404_not_uuid(self):
+    def test_get_event_or_404_with_invalid_uuid(self):
         """Check that the function returns 404 for invalid uuid."""
         non_uuids = (
             'abcd-1234',  # Incorrect length.
             'd7768443-04e2-45d2-b71f-2b716bf13f1z'  # Wrong char 'z'.
         )
-        for non_uuid in non_uuids:
-            with self.assertRaises(Http404):
-                views.get_event_or_404(non_uuid)
+        with self.assertRaises(Http404):
+            views.get_event_or_404(non_uuids[0])
+        with self.assertRaises(Http404):
+            views.get_event_or_404(non_uuids[1])
 
 
 class TestContentProduced(TestCase):
