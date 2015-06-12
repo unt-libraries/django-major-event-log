@@ -3,6 +3,7 @@ import xml.etree.ElementTree as ET
 from django.core.urlresolvers import reverse, resolve
 from django.utils import timezone
 from django.test import TestCase
+from django.http import Http404
 
 from major_event_log.models import Event
 from major_event_log import views
@@ -79,6 +80,28 @@ class TestURLsToViews(TestCase):
                     'major-event-log/about.html'))
         for url, template in urls:
             self.assertTemplateUsed(self.client.get(url), template)
+
+    def test_get_event_or_404_uuid_in_db(self):
+        """Check that the function returns 404 for any non-existant id."""
+        uuid = str(create_event().id)
+        event = views.get_event_or_404(uuid)
+        self.assertIsInstance(event, Event)
+
+    def test_get_event_or_404_uuid_not_in_db(self):
+        """Check that the function returns 404 for uuid not in db."""
+        uuid = 'd7768443-04e2-45d2-b71f-2b716bf13f13'
+        with self.assertRaises(Http404):
+            views.get_event_or_404(uuid)
+
+    def test_get_event_or_404_not_uuid(self):
+        """Check that the function returns 404 for invalid uuid."""
+        non_uuids = (
+            'abcd-1234',  # Incorrect length.
+            'd7768443-04e2-45d2-b71f-2b716bf13f1z'  # Wrong char 'z'.
+        )
+        for non_uuid in non_uuids:
+            with self.assertRaises(Http404):
+                views.get_event_or_404(non_uuid)
 
 
 class TestContentProduced(TestCase):
