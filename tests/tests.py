@@ -104,6 +104,16 @@ class TestURLsToViews(TestCase):
         with self.assertRaises(Http404):
             views.get_event_or_404(non_uuids[1])
 
+    def test_get_absolute_url(self):
+        """Check that the method returns the expected absolute url.
+
+        This method should return the url of the event details page
+        for that specific event.
+        """
+        event = create_event()
+        expected = reverse("major-event-log:event_details", args=[event.id])
+        self.assertEqual(event.get_absolute_url(), expected)
+
 
 class TestContentProduced(TestCase):
     """Tests to make sure content is being produced correctly."""
