@@ -82,7 +82,7 @@ class TestURLsToViews(TestCase):
             self.assertTemplateUsed(self.client.get(url), template)
 
     def test_get_event_or_404_with_uuid_in_db(self):
-        """Check that the function returns 404 for any non-existant id."""
+        """Check that an event is returned when an existing uuid is given."""
         uuid = str(create_event().id)
         event = views.get_event_or_404(uuid)
         self.assertIsInstance(event, Event)
