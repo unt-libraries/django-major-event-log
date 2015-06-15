@@ -19,13 +19,13 @@
             <tbody>
             {% for event in events %}
                 <tr>
-                    <td style="font-family:monospace"><a href="{% url 'major-event-log:event_details' event.id %}">{{ event.id|truncatechars:16 }}</a></td>
+                    <td class="monospaced"><a href="{% url 'major-event-log:event_details' event.id %}">{{ event.id|truncatechars:16 }}</a></td>
                     <td>{{ event.date }}</td>
                     <td>{{ event.title }}</td>
                     {% if event.get_outcome_display == 'Success' %}
-                    <td style="font-family:monospace"><span class="label label-success">{{ event.get_outcome_display }}</span></td>
+                    <td class="monospaced"><span class="label label-success">{{ event.get_outcome_display }}</span></td>
                     {% else %}
-                    <td style="font-family:monospace"><span class="label label-danger">{{ event.get_outcome_display }}</span></td>
+                    <td class="monospaced"><span class="label label-danger">{{ event.get_outcome_display }}</span></td>
                     {% endif %}
                 </tr>
             {% endfor %}
@@ -33,17 +33,41 @@
         </table>
         {% if is_paginated %}
             <div class="pagination">
-                <span class="page-links">
-                    {% if page_obj.has_previous %}
-                        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                <ul>
+                    {% if page_obj.number != 1 %}
+                        <li><a href="?page=1">First</a></li>
+                    {% else %}
+                        <li class="disabled">First</li>
                     {% endif %}
-                    <span class="page-current">
-                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                    </span>
+
+                    {% if page_obj.has_previous %}
+                        <li><a href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                    {% else %}
+                        <li class="disabled">Previous</li>
+                    {% endif %}
+
+                    {% for page in page_obj.paginator.page_range %}
+                        {% if page_obj.number == page %}
+                            <li class="active">{{ page }} </li>
+                        {% else %}
+                            {% if page > page_obj.number|add:"-4" and page < page_obj.number|add:"4" %}
+                                <li><a href="?page={{ page }}">{{ page }}</a></li>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+
                     {% if page_obj.has_next %}
-                        <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                        <li><a href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                    {% else %}
+                        <li class="disabled">Next</li>
                     {% endif %}    
-                </span>
+
+                    {% if page_obj.number != page_obj.paginator.num_pages %}
+                        <li><a href="?page={{ page_obj.paginator.num_pages }}">Last</a></li>
+                    {% else %}
+                        <li class="disabled">Last</li>
+                    {% endif %}
+                </ul>
             </div>
         {% endif %}
     {% else %}
