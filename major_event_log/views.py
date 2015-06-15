@@ -5,9 +5,16 @@ templates defined in the 'templates/major-event-log' directory.
 """
 from django.http import Http404
 from django.shortcuts import render
+from django.views.generic import ListView
 
 from .models import Event
 
+
+class EventList(ListView):
+    template_name = 'major-event-log/index.html'
+    queryset = Event.objects.order_by('-date')
+    context_object_name = 'events'
+    paginate_by = 10
 
 def index(request):
     """Loads the index, or 'home page' of the major event log app."""

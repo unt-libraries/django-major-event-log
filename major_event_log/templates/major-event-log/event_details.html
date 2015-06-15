@@ -4,7 +4,7 @@
 
 {% block content %}
 	<div class="page-header">
-		<h1>Details for event: <span style="font-family:monospace">{{ event.id }}</span></h1>
+		<h1>Details for event: <span style="font-family:monospace; font-size:85%">{{ event.id }}</span></h1>
 	</div>
 	<table class="table table-striped">
 		<tr>
@@ -35,6 +35,9 @@
 			<th><b>Event Date</b></th>
 			<td>{{ event.date }}</td>
 		</tr>
+    </table>
+    <h2>Metadata</h2>
+	<table class="table table-striped">
 		<tr>
 			<th><b>Created</b></th>
 			<td>{{ event.entry_created }}</td>
