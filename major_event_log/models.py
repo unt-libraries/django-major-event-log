@@ -30,6 +30,12 @@ class Event(models.Model):
                                     "Name will appear as the Reporting Agent")
     contact_email = models.EmailField()
 
+    def is_success(self):
+        if self.get_outcome_display() == "Success":
+            return True
+        else:
+            return False
+
     class Meta:
         ordering = ["date"]
 

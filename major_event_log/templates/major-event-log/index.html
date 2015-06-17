@@ -19,56 +19,16 @@
             <tbody>
             {% for event in events %}
                 <tr>
-                    <td class="monospaced"><a href="{% url 'major-event-log:event_details' event.id %}">{{ event.id }}</a></td>
+                    <td><a href="{% url 'major-event-log:event_details' event.id %}"><samp>{{ event.id }}</samp></a></td>
                     <td>{{ event.date|date:"N d, Y" }}</td>
                     <td>{{ event.title }}</td>
-                    {% if event.get_outcome_display == 'Success' %}
-                    <td class="monospaced"><span class="label label-success">{{ event.get_outcome_display }}</span></td>
-                    {% else %}
-                    <td class="monospaced"><span class="label label-danger">{{ event.get_outcome_display }}</span></td>
-                    {% endif %}
+                    <td><span class="label label-{% if event.is_success %}success{% else %}danger{% endif %}"><samp>{{ event.get_outcome_display }}</samp></span></td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
         {% if is_paginated %}
-            <div class="pagination">
-                <ul>
-                    {% if page_obj.number != 1 %}
-                        <li><a href="?page=1">First</a></li>
-                    {% else %}
-                        <li class="disabled">First</li>
-                    {% endif %}
-
-                    {% if page_obj.has_previous %}
-                        <li><a href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
-                    {% else %}
-                        <li class="disabled">Previous</li>
-                    {% endif %}
-
-                    {% for page in page_obj.paginator.page_range %}
-                        {% if page_obj.number == page %}
-                            <li class="active">{{ page }} </li>
-                        {% else %}
-                            {% if page > page_obj.number|add:"-4" and page < page_obj.number|add:"4" %}
-                                <li><a href="?page={{ page }}">{{ page }}</a></li>
-                            {% endif %}
-                        {% endif %}
-                    {% endfor %}
-
-                    {% if page_obj.has_next %}
-                        <li><a href="?page={{ page_obj.next_page_number }}">Next</a></li>
-                    {% else %}
-                        <li class="disabled">Next</li>
-                    {% endif %}    
-
-                    {% if page_obj.number != page_obj.paginator.num_pages %}
-                        <li><a href="?page={{ page_obj.paginator.num_pages }}">Last</a></li>
-                    {% else %}
-                        <li class="disabled">Last</li>
-                    {% endif %}
-                </ul>
-            </div>
+            {% include "major-event-log/pagination.html" %}
         {% endif %}
     {% else %}
         <h2>No events have been created.</h2>

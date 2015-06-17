@@ -15,15 +15,11 @@
 		</tr>
 		<tr>
 			<th><b>ID</b></th>
-			<td class="monospaced">{{ event.id }}</td>
+			<td><samp>{{ event.id }}</samp></td>
 		</tr>
 		<tr>
 			<th><b>Outcome</b></th>
-		{% if event.get_outcome_display == 'Success' %}
-			<td class="monospaced"><span class="label label-success">{{ event.get_outcome_display }}</span></td>
-		{% else %}
-			<td class="monospaced"><span class="label label-danger">{{ event.get_outcome_display }}</span></td>
-		{% endif %}
+            <td><span class="label label-{% if event.is_success %}success{% else %}danger{% endif %}"><samp>{{ event.get_outcome_display }}</samp></span></td>
 		</tr>
 		<tr>
 			<th><b>Outcome Details</b></th>
