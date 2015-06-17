@@ -31,10 +31,7 @@ class Event(models.Model):
     contact_email = models.EmailField()
 
     def is_success(self):
-        if self.outcome == self.SUCCESS:
-            return True
-        else:
-            return False
+        return self.outcome == self.SUCCESS:
 
     class Meta:
         ordering = ["date"]
