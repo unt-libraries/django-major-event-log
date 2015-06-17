@@ -7,6 +7,8 @@ import uuid
 
 from django.shortcuts import render, get_object_or_404
 from django.http import Http404
+from django.shortcuts import render
+from django.views.generic import ListView
 
 from .models import Event
 
@@ -28,11 +30,11 @@ def get_event_or_404(event_id):
     return get_object_or_404(Event.objects, id=event_id)
 
 
-def index(request):
-    """Loads the index, or 'home page' of the major event log app."""
-    events = Event.objects.order_by('-date')
-    context = {'events': events}
-    return render(request, 'major-event-log/index.html', context)
+class EventList(ListView):
+    template_name = 'major-event-log/index.html'
+    queryset = Event.objects.order_by('-date')
+    context_object_name = 'events'
+    paginate_by = 10
 
 
 def event_details(request, event_id):

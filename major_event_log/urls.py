@@ -11,8 +11,8 @@ from . import feeds
 
 urlpatterns = [
     # Matches root index of app ('/').
-    url(r'^$', views.index, name='index'),
-    # Matches URLs like 'event/123a-4b56c-78d.premis.xml'.
+    url(r'^$', views.EventList.as_view(), name='index'),
+    # Matches urls like 'event/123a-4b56c-78d.premis.xml'.
     url(r'^event/(?P<event_id>.*?)\.premis\.xml$',
         views.event_premis, name='event_premis'),
     # Matches URLs like 'event/123a-4b56c-78d.xml'.

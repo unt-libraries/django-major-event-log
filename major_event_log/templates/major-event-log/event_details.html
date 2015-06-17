@@ -3,9 +3,7 @@
 {% block title %}Event Details{% endblock %}
 
 {% block content %}
-	<div class="page-header">
-		<h1>Details for {{ event.id }}</h1>
-	</div>
+    <h2>Event Details</h2>
 	<table class="table table-striped">
 		<tr>
 			<th><b>Title</b></th>
@@ -17,15 +15,11 @@
 		</tr>
 		<tr>
 			<th><b>ID</b></th>
-			<td>{{ event.id }}</td>
+			<td><samp>{{ event.id }}</samp></td>
 		</tr>
 		<tr>
 			<th><b>Outcome</b></th>
-		{% if event.get_outcome_display == 'Success' %}
-			<td><span class="label label-success">{{ event.get_outcome_display }}</span></td>
-		{% else %}
-			<td><span class="label label-danger">{{ event.get_outcome_display }}</span></td>
-		{% endif %}
+            <td><span class="label label-{% if event.is_success %}success{% else %}danger{% endif %}"><samp>{{ event.get_outcome_display }}</samp></span></td>
 		</tr>
 		<tr>
 			<th><b>Outcome Details</b></th>
@@ -35,6 +29,9 @@
 			<th><b>Event Date</b></th>
 			<td>{{ event.date }}</td>
 		</tr>
+    </table>
+    <h2>Event Metadata</h2>
+	<table class="table table-striped">
 		<tr>
 			<th><b>Created</b></th>
 			<td>{{ event.entry_created }}</td>

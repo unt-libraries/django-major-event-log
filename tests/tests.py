@@ -52,9 +52,7 @@ class TestURLsToViews(TestCase):
     def test_correct_view_called(self):
         """Check that URLs are resolved to the correct views."""
         uuid = '88888888-4444-4444-a444-121212121212'
-        urls = ((reverse('major-event-log:index'),
-                 views.index),
-                (reverse('major-event-log:event_details', args=[uuid]),
+        urls = ((reverse('major-event-log:event_details', args=[uuid]),
                     views.event_details),
                 (reverse('major-event-log:event_atom', args=[uuid]),
                     views.event_atom),
