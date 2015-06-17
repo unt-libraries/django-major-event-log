@@ -16,6 +16,7 @@ class EventList(ListView):
     context_object_name = 'events'
     paginate_by = 10
 
+
 def index(request):
     """Loads the index, or 'home page' of the major event log app."""
     events = Event.objects.order_by('-date')
