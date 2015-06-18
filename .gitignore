@@ -1,5 +1,8 @@
 /db.sqlite3
+/.tox
 /mysite
 /templates
+/dist
 *.pyc
 *.swp
+*.egg-info

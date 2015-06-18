@@ -4,7 +4,7 @@ Notice!
 **This application is still being developed! Major components are still in an
 unfinished state!**
 
-Django Major Event Log App
+Django Major Event Log App [![Build Status](https://travis-ci.org/unt-libraries/django-major-event-log.svg?branch=master)](https://travis-ci.org/unt-libraries/django-major-event-log)
 ============================================================
 
 About
