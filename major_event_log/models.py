@@ -28,8 +28,8 @@ class Event(models.Model):
     entry_created = models.DateTimeField(auto_now_add=True)
     entry_modified = models.DateTimeField(auto_now=True)
     # The contact_name attribute will be used as the reporting agent.
-    contact_name = models.CharField(max_length=100, help_text=
-                                    "Name will appear as the Reporting Agent")
+    contact_name = models.CharField(max_length=100,
+                                    help_text="Appears as the Reporting Agent")
     contact_email = models.EmailField()
 
     def get_absolute_url(self):

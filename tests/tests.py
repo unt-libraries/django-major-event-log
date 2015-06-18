@@ -53,13 +53,13 @@ class TestURLsToViews(TestCase):
         """Check that URLs are resolved to the correct views."""
         uuid = '88888888-4444-4444-a444-121212121212'
         urls = ((reverse('major-event-log:event_details', args=[uuid]),
-                    views.event_details),
+                 views.event_details),
                 (reverse('major-event-log:event_atom', args=[uuid]),
-                    views.event_atom),
+                 views.event_atom),
                 (reverse('major-event-log:event_premis', args=[uuid]),
-                    views.event_premis),
+                 views.event_premis),
                 (reverse('major-event-log:about'),
-                    views.about))
+                 views.about))
         for url, expected in urls:
             self.assertEqual(resolve(url).func, expected)
 
