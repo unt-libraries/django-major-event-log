@@ -72,6 +72,5 @@ Django-major-event-log was developed at the UNT Libraries.
 
 Contributors:
 
-* [Mark Phillips](https://github.com/vphill)
 * [Gio Gottardi](https://github.com/somexpert)
 
