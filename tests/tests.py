@@ -179,15 +179,11 @@ class TestModelMethods(TestCase):
         self.assertEqual(event.is_success(), False)
 
 
-class TestContentProduced(TestCase):
-    """Tests to make sure content is being produced correctly."""
+class TestEventsUsed(TestCase):
+    """Tests to make sure the correct events are being processed."""
 
-    def test_index_content(self):
-        """Check the content of the index page.
-
-        Contents are verified by checking that all existing events
-        have been placed in the context.
-        """
+    def test_index_events(self):
+        """Check that the index page shows the most recent 10 events."""
         events = []
         for i in range(4):
             events.append(create_event())
@@ -195,23 +191,44 @@ class TestContentProduced(TestCase):
         for event in events:
             self.assertIn(event, response.context['events'])
 
-    def test_event_details_content(self):
-        """Check the content of the event_details page.
-
-        Contents are verified by checking that the proper event has
-        been placed in the context."""
+    def test_event_details_event(self):
+        """Check that the event_details page shows the correct event."""
         event = create_event()
         response = self.client.get(reverse('major-event-log:event_details',
                                            args=[event.id]))
         # Check that the correct event is passed in the context.
         self.assertEqual(response.context['event'], event)
 
-    def test_event_atom_content(self):
-        """Check the content of the event_atom page.
+    def test_event_atom_event(self):
+        """Check that the event_atom page is using the correct event."""
+        event = create_event()
+        response = self.client.get(reverse('major-event-log:event_atom',
+                                           args=[event.id]))
+        self.assertEqual(response.context['event'], event)
 
-        Contents are verified by checking that the proper event has
-        been placed in the context and that the Atom XML is well-
-        formed."""
+    def test_event_premis_event(self):
+        """Check that the event_premis page is using the correct event."""
+        event = create_event()
+        response = self.client.get(reverse('major-event-log:event_premis',
+                                           args=[event.id]))
+        self.assertEqual(response.context['event'], event)
+
+    def test_feed_events(self):
+        """Check that only the latest 10 events are included in the feed."""
+        events = []
+        for i in range(11):
+            events.append(create_event())
+        response = self.client.get(reverse('major-event-log:feed'))
+        self.assertNotContains(response, events[0].id)
+        for event in events[1:]:
+            self.assertContains(response, event.id)
+
+
+class TestXML(TestCase):
+    """Test the validity of the produced XML."""
+
+    def test_event_atom_xml(self):
+        """Checks for the correct structure within the Atom XML."""
         namespace = {'default': 'http://www.w3.org/2005/Atom'}
         expected_xml_structure = [
             './default:title',
@@ -223,19 +240,12 @@ class TestContentProduced(TestCase):
         event = create_event()
         response = self.client.get(reverse('major-event-log:event_atom',
                                            args=[event.id]))
-        # Check that the correct event is passed in the context.
-        self.assertEqual(response.context['event'], event)
-        # Make sure that the Atom XML has the expected structure.
         atom = ET.fromstring(response.content)
         for xpath in expected_xml_structure:
             self.assertIsNotNone(atom.find(xpath, namespace))
 
-    def test_event_premis_content(self):
-        """Check the content of the event_premis page.
-
-        Contents are verified by checking that the proper event has
-        been placed in the context and that the PREMIS XML is well-
-        formed."""
+    def test_event_premis_xml(self):
+        """Checks for the correct structure within the Atom XML."""
         namespace = {'prms': 'info:lc/xmlns/premis-v2'}
         expected_premis_structure = [
             './prms:eventDetail',
@@ -251,25 +261,13 @@ class TestContentProduced(TestCase):
         event = create_event()
         response = self.client.get(reverse('major-event-log:event_premis',
                                            args=[event.id]))
-        # Check that the correct event is passed in the context.
-        self.assertEqual(response.context['event'], event)
         # Make sure that the PREMIS event has the expected structure.
         atom = ET.fromstring(response.content)
         for xpath in expected_premis_structure:
             self.assertIsNotNone(atom.find(xpath, namespace))
 
-    def test_feed_content(self):
-        """Check that only the latest 10 events are included in the feed."""
-        events = []
-        for i in range(11):
-            events.append(create_event())
-        response = self.client.get(reverse('major-event-log:feed'))
-        self.assertNotContains(response, events[0].id)
-        for event in events[1:]:
-            self.assertContains(response, event.id)
-
-    def test_feed_structure(self):
-        """Check that the feed is structured correctly."""
+    def test_feed_xml(self):
+        """Checks for the correct structure within the Atom feed's XML."""
         namespace = {'default': 'http://www.w3.org/2005/Atom'}
         expected_feed_structure = [
             './default:title',
