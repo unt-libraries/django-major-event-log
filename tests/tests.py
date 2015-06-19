@@ -29,55 +29,105 @@ def create_event(title='test', outcome='Success', name='John Doe'):
     return event
 
 
-class TestURLsToViews(TestCase):
-    """Tests to make sure that URLs get directed to the right views.
+class TestLogic(TestCase):
+    """Tests to make sure that all the logic performs as expected.
 
-    Verifies that the correct information is captured from the URLs,
-    that the URLs get directed correctly (or that the correct error
-    is displayed), and that the correct templates get used.
+    Verifies all the logic being used to create the app. For instance,
+    all the urls are tested to make sure they are accepted and that
+    they call the correct views and templates, and the model methods
+    are checked to make sure they perform as expected. Also, the
+    get_event_or_404 function defined in views.py is tested to ensure
+    expected behavior.
     """
 
-    def test_valid_urls(self):
-        """Check that valid URLs get directed to the correct views."""
-        uuid = create_event().id
-        urls = (reverse('major-event-log:index'),
-                reverse('major-event-log:event_details', args=[uuid]),
-                reverse('major-event-log:event_atom', args=[uuid]),
-                reverse('major-event-log:event_premis', args=[uuid]),
-                reverse('major-event-log:feed'),
-                reverse('major-event-log:about'))
-        for url in urls:
-            self.assertEqual(self.client.get(url).status_code, 200)
+    def test_index_url(self):
+        """Check that the index url receives an HTTP 200."""
+        url = reverse('major-event-log:index')
+        self.assertEqual(self.client.get(url).status_code, 200)
 
-    def test_correct_view_called(self):
-        """Check that URLs are resolved to the correct views."""
+    def test_event_details_url(self):
+        """Check that the event_details url receives an HTTP 200."""
+        uuid = create_event().id
+        url = reverse('major-event-log:event_details', args=[uuid])
+        self.assertEqual(self.client.get(url).status_code, 200)
+
+    def test_event_atom_url(self):
+        """Check that the event_atom url receives an HTTP 200."""
+        uuid = create_event().id
+        url = reverse('major-event-log:event_atom', args=[uuid])
+        self.assertEqual(self.client.get(url).status_code, 200)
+
+    def test_event_premis_url(self):
+        """Check that the event_premis url receives an HTTP 200."""
+        uuid = create_event().id
+        url = reverse('major-event-log:event_premis', args=[uuid])
+        self.assertEqual(self.client.get(url).status_code, 200)
+
+    def test_feed_url(self):
+        """Check that the feed url receives an HTTP 200."""
+        url = reverse('major-event-log:feed')
+        self.assertEqual(self.client.get(url).status_code, 200)
+
+    def test_about_url(self):
+        """Check that the about url receives an HTTP 200."""
+        url = reverse('major-event-log:about')
+        self.assertEqual(self.client.get(url).status_code, 200)
+
+    def test_event_details_view_called(self):
+        """Check that the event_details page calls the correct view."""
         uuid = '88888888-4444-4444-a444-121212121212'
-        urls = ((reverse('major-event-log:event_details', args=[uuid]),
-                 views.event_details),
-                (reverse('major-event-log:event_atom', args=[uuid]),
-                 views.event_atom),
-                (reverse('major-event-log:event_premis', args=[uuid]),
-                 views.event_premis),
-                (reverse('major-event-log:about'),
-                 views.about))
-        for url, expected in urls:
-            self.assertEqual(resolve(url).func, expected)
+        url = reverse('major-event-log:event_details', args=[uuid])
+        self.assertEqual(resolve(url).func, views.event_details)
 
-    def test_correct_templates_used(self):
-        """Check that the right templates are used by the views."""
+    def test_event_atom_view_called(self):
+        """Check that the event_atom page calls the correct view."""
+        uuid = '88888888-4444-4444-a444-121212121212'
+        url = reverse('major-event-log:event_atom', args=[uuid])
+        self.assertEqual(resolve(url).func, views.event_atom)
+
+    def test_event_premis_view_called(self):
+        """Check that the event_premis page calls the correct view."""
+        uuid = '88888888-4444-4444-a444-121212121212'
+        url = reverse('major-event-log:event_premis', args=[uuid])
+        self.assertEqual(resolve(url).func, views.event_premis)
+
+    def test_about_view_called(self):
+        """Check that the about page calls the correct view."""
+        url = reverse('major-event-log:about')
+        self.assertEqual(resolve(url).func, views.about)
+
+    def test_index_template_used(self):
+        """Check that the correct template is used by the index view."""
+        url = reverse('major-event-log:index')
+        template = 'major-event-log/index.html'
+        self.assertTemplateUsed(self.client.get(url), template)
+
+    def test_event_details_template_used(self):
+        """Check that the right template is used by the event_details view."""
         uuid = create_event().id
-        urls = ((reverse('major-event-log:index'),
-                 'major-event-log/index.html'),
-                (reverse('major-event-log:event_details', args=[uuid]),
-                    'major-event-log/event_details.html'),
-                (reverse('major-event-log:event_atom', args=[uuid]),
-                    'major-event-log/event_atom.xml'),
-                (reverse('major-event-log:event_premis', args=[uuid]),
-                    'major-event-log/event_premis.xml'),
-                (reverse('major-event-log:about'),
-                    'major-event-log/about.html'))
-        for url, template in urls:
-            self.assertTemplateUsed(self.client.get(url), template)
+        url = reverse('major-event-log:event_details', args=[uuid])
+        template = 'major-event-log/event_details.html'
+        self.assertTemplateUsed(self.client.get(url), template)
+
+    def test_event_atom_template_used(self):
+        """Check that the correct template is used by the event_atom view."""
+        uuid = create_event().id
+        url = reverse('major-event-log:event_atom', args=[uuid])
+        template = 'major-event-log/event_atom.xml'
+        self.assertTemplateUsed(self.client.get(url), template)
+
+    def test_event_premis_template_used(self):
+        """Check that the correct template is used by the event_premis view."""
+        uuid = create_event().id
+        url = reverse('major-event-log:event_premis', args=[uuid])
+        template = 'major-event-log/event_premis.xml'
+        self.assertTemplateUsed(self.client.get(url), template)
+
+    def test_about_template_used(self):
+        """Check that the correct template is used by the about view."""
+        url = reverse('major-event-log:about')
+        template = 'major-event-log/about.html'
+        self.assertTemplateUsed(self.client.get(url), template)
 
     def test_get_event_or_404_with_uuid_in_db(self):
         """Check that an event is returned when an existing UUID is given."""
@@ -109,6 +159,16 @@ class TestURLsToViews(TestCase):
         event = create_event()
         expected = reverse("major-event-log:event_details", args=[event.id])
         self.assertEqual(event.get_absolute_url(), expected)
+
+    def test_is_success_with_success(self):
+        """Check that True is returned when the outcome was a success."""
+        event = create_event()
+        self.assertEqual(event.is_success(), True)
+
+    def test_is_success_with_failure(self):
+        """Check that False is returned when the outcome was a failure."""
+        event = create_event(outcome='Failure')
+        self.assertEqual(event.is_success(), False)
 
 
 class TestContentProduced(TestCase):
@@ -191,10 +251,17 @@ class TestContentProduced(TestCase):
             self.assertIsNotNone(atom.find(xpath, namespace))
 
     def test_feed_content(self):
-        """Check that the feed creates a properly formed Atom feed.
+        """Check that only the latest 10 events are included in the feed."""
+        events = []
+        for i in range(11):
+            events.append(create_event())
+        response = self.client.get(reverse('major-event-log:feed'))
+        self.assertNotContains(response, events[0].id)
+        for event in events[1:]:
+            self.assertContains(response, event.id)
 
-        Contents are verified by checking that only the most recent
-        ten events have been placed in the context."""
+    def test_feed_structure(self):
+        """Check that the feed is structured correctly."""
         namespace = {'default': 'http://www.w3.org/2005/Atom'}
         expected_feed_structure = [
             './default:title',
@@ -204,15 +271,8 @@ class TestContentProduced(TestCase):
             './default:subtitle',
             './default:entry'
         ]
-        events = []
-        for i in range(11):
-            events.append(create_event())
+        create_event()
         response = self.client.get(reverse('major-event-log:feed'))
-        # Check that only the last ten events are passed in the context.
-        self.assertNotContains(response, events[0].id)
-        for event in events[1:]:
-            self.assertContains(response, event.id)
-        # Make sure that the PREMIS event has the expected structure.
         atom = ET.fromstring(response.content)
         for xpath in expected_feed_structure:
             self.assertIsNotNone(atom.find(xpath, namespace))
