@@ -29,16 +29,8 @@ def create_event(title='test', outcome='Success', name='John Doe'):
     return event
 
 
-class TestLogic(TestCase):
-    """Tests to make sure that all the logic performs as expected.
-
-    Verifies all the logic being used to create the app. For instance,
-    all the URLs are tested to make sure they are accepted and that
-    they call the correct views and templates, and the model methods
-    are checked to make sure they perform as expected. Also, the
-    get_event_or_404 function defined in views.py is tested to ensure
-    expected behavior.
-    """
+class TestURLs(TestCase):
+    """Test that each existing URL is acknowledged with an HTTP 200."""
 
     def test_index_url(self):
         """Check that the index URL receives an HTTP 200."""
@@ -73,6 +65,10 @@ class TestLogic(TestCase):
         url = reverse('major-event-log:about')
         self.assertEqual(self.client.get(url).status_code, 200)
 
+
+class TestViewsCalled(TestCase):
+    """Test that the correct views are called with each URL."""
+
     def test_event_details_view_called(self):
         """Check that the event_details URL pattern calls the correct view."""
         uuid = '88888888-4444-4444-a444-121212121212'
@@ -95,6 +91,10 @@ class TestLogic(TestCase):
         """Check that the about URL pattern calls the correct view."""
         url = reverse('major-event-log:about')
         self.assertEqual(resolve(url).func, views.about)
+
+
+class TestTemplateUsed(TestCase):
+    """Test that the correct template is called by the views."""
 
     def test_index_template_used(self):
         """Check that the correct template is used by the index view."""
@@ -129,6 +129,10 @@ class TestLogic(TestCase):
         template = 'major-event-log/about.html'
         self.assertTemplateUsed(self.client.get(url), template)
 
+
+class TestGetEventOr404(TestCase):
+    """Tests that the function returns the specified event or an HTTP 404."""
+
     def test_get_event_or_404_with_uuid_in_db(self):
         """Check that an event is returned when an existing UUID is given."""
         uuid = str(create_event().id)
@@ -149,6 +153,10 @@ class TestLogic(TestCase):
         # Test with an id that has non hexadecimal values.
         with self.assertRaises(Http404):
             views.get_event_or_404('z7768443-04z2-45q2-y71m-2w716px13uzz')
+
+
+class TestModelMethods(TestCase):
+    """Tests correct functionality of the 2 methods in the Event model."""
 
     def test_get_absolute_url(self):
         """Check that the method returns the expected absolute URL.
