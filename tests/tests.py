@@ -33,7 +33,7 @@ class TestLogic(TestCase):
     """Tests to make sure that all the logic performs as expected.
 
     Verifies all the logic being used to create the app. For instance,
-    all the urls are tested to make sure they are accepted and that
+    all the URLs are tested to make sure they are accepted and that
     they call the correct views and templates, and the model methods
     are checked to make sure they perform as expected. Also, the
     get_event_or_404 function defined in views.py is tested to ensure
@@ -41,58 +41,58 @@ class TestLogic(TestCase):
     """
 
     def test_index_url(self):
-        """Check that the index url receives an HTTP 200."""
+        """Check that the index URL receives an HTTP 200."""
         url = reverse('major-event-log:index')
         self.assertEqual(self.client.get(url).status_code, 200)
 
     def test_event_details_url(self):
-        """Check that the event_details url receives an HTTP 200."""
+        """Check that the event_details URL receives an HTTP 200."""
         uuid = create_event().id
         url = reverse('major-event-log:event_details', args=[uuid])
         self.assertEqual(self.client.get(url).status_code, 200)
 
     def test_event_atom_url(self):
-        """Check that the event_atom url receives an HTTP 200."""
+        """Check that the event_atom URL receives an HTTP 200."""
         uuid = create_event().id
         url = reverse('major-event-log:event_atom', args=[uuid])
         self.assertEqual(self.client.get(url).status_code, 200)
 
     def test_event_premis_url(self):
-        """Check that the event_premis url receives an HTTP 200."""
+        """Check that the event_premis URL receives an HTTP 200."""
         uuid = create_event().id
         url = reverse('major-event-log:event_premis', args=[uuid])
         self.assertEqual(self.client.get(url).status_code, 200)
 
     def test_feed_url(self):
-        """Check that the feed url receives an HTTP 200."""
+        """Check that the feed URL receives an HTTP 200."""
         url = reverse('major-event-log:feed')
         self.assertEqual(self.client.get(url).status_code, 200)
 
     def test_about_url(self):
-        """Check that the about url receives an HTTP 200."""
+        """Check that the about URL receives an HTTP 200."""
         url = reverse('major-event-log:about')
         self.assertEqual(self.client.get(url).status_code, 200)
 
     def test_event_details_view_called(self):
-        """Check that the event_details page calls the correct view."""
+        """Check that the event_details URL pattern calls the correct view."""
         uuid = '88888888-4444-4444-a444-121212121212'
         url = reverse('major-event-log:event_details', args=[uuid])
         self.assertEqual(resolve(url).func, views.event_details)
 
     def test_event_atom_view_called(self):
-        """Check that the event_atom page calls the correct view."""
+        """Check that the event_atom URL pattern calls the correct view."""
         uuid = '88888888-4444-4444-a444-121212121212'
         url = reverse('major-event-log:event_atom', args=[uuid])
         self.assertEqual(resolve(url).func, views.event_atom)
 
     def test_event_premis_view_called(self):
-        """Check that the event_premis page calls the correct view."""
+        """Check that the event_premis URL pattern calls the correct view."""
         uuid = '88888888-4444-4444-a444-121212121212'
         url = reverse('major-event-log:event_premis', args=[uuid])
         self.assertEqual(resolve(url).func, views.event_premis)
 
     def test_about_view_called(self):
-        """Check that the about page calls the correct view."""
+        """Check that the about URL pattern calls the correct view."""
         url = reverse('major-event-log:about')
         self.assertEqual(resolve(url).func, views.about)
 
