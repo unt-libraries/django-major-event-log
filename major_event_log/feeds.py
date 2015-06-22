@@ -1,7 +1,7 @@
 """Creates the Atom feed for the major PREMIS events."""
 
 from django.contrib.syndication.views import Feed
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.feedgenerator import Atom1Feed
 
 from .models import Event
@@ -21,8 +21,10 @@ class LatestEventsFeed(Feed):
     feed_type = MajorEventLogFeed
     # Required tags by the Atom feed.
     title = "PREMIS Major Event Log"
-    link = "/major-event-log/"
+    link = reverse_lazy("major-event-log:index")
     subtitle = "10 most recent major PREMIS events."
+    author_name = "Major Event Log"
+    author_link = "http://digital2.library.unt.edu/name/nm0005293/"
 
     # Show simple, human-readable fields in the event feed.
     def items(self):
@@ -36,3 +38,6 @@ class LatestEventsFeed(Feed):
 
     def item_link(self, item):
         return reverse('major-event-log:event_details', args=[item.pk])
+
+    def item_updateddate(self, item):
+        return item.entry_modified
