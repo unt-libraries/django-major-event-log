@@ -1,12 +1,15 @@
-import xml.etree.ElementTree as ET
+import os
+
+from lxml import etree
 
 from django.core.urlresolvers import reverse, resolve
+from django.test import TestCase, RequestFactory
 from django.utils import timezone
-from django.test import TestCase
 from django.http import Http404
 
 from major_event_log.models import Event
 from major_event_log import views
+from major_event_log import feeds
 
 
 def create_event(title='test', outcome='Success', name='John Doe'):
@@ -237,60 +240,40 @@ class TestEventsUsed(TestCase):
 class TestXML(TestCase):
     """Test the validity of the produced XML."""
 
+    data_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                             'data')
+
     @classmethod
     def setUpTestData(cls):
         """Set up the events for use in the tests in this class."""
         cls.event = create_event()
-
-    def test_event_atom_xml(self):
-        """Checks for the correct structure within the Atom XML."""
-        namespace = {'default': 'http://www.w3.org/2005/Atom'}
-        expected_xml_structure = [
-            './default:title',
-            './default:id',
-            './default:updated',
-            './default:author/default:name',
-            './default:content'
-        ]
-        response = self.client.get(reverse('major-event-log:event_atom',
-                                           args=[self.event.id]))
-        atom = ET.fromstring(response.content)
-        for xpath in expected_xml_structure:
-            self.assertIsNotNone(atom.find(xpath, namespace))
+        cls.factory = RequestFactory()
 
     def test_event_premis_xml(self):
-        """Checks for the correct structure within the Atom XML."""
-        namespace = {'prms': 'info:lc/xmlns/premis-v2'}
-        expected_premis_structure = [
-            './prms:eventDetail',
-            './prms:eventOutcomeInformation/prms:eventOutcomeDetail',
-            './prms:eventOutcomeInformation/prms:eventOutcome',
-            './prms:eventType',
-            './prms:linkingAgentIdentifier/prms:linkingAgentIdentifierValue',
-            './prms:linkingAgentIdentifier/prms:linkingAgentIdentifierType',
-            './prms:eventIdentifier/prms:eventIdentifierValue',
-            './prms:eventIdentifier/prms:eventIdentifierType',
-            './prms:eventDateTime'
-        ]
-        response = self.client.get(reverse('major-event-log:event_premis',
-                                           args=[self.event.id]))
-        # Make sure that the PREMIS event has the expected structure.
-        atom = ET.fromstring(response.content)
-        for xpath in expected_premis_structure:
-            self.assertIsNotNone(atom.find(xpath, namespace))
+        """Validates the PREMIS XML against its schema."""
+        request = self.factory.get('/')
+        response = views.event_premis(request, str(self.event.id))
+        schema_path = os.path.join(self.data_path, 'premis_schema.xsd')
+        with open(schema_path, 'r') as schema_file:
+            schema_root = etree.parse(schema_file)
+        try:
+            schema = etree.XMLSchema(schema_root)
+        except etree.XMLSchemaParseError:
+            assert False
+        premis = etree.fromstring(response.content)
+        assert schema.validate(premis)
 
     def test_feed_xml(self):
-        """Checks for the correct structure within the Atom feed's XML."""
-        namespace = {'default': 'http://www.w3.org/2005/Atom'}
-        expected_feed_structure = [
-            './default:title',
-            './default:link',
-            './default:id',
-            './default:updated',
-            './default:subtitle',
-            './default:entry'
-        ]
-        response = self.client.get(reverse('major-event-log:feed'))
-        atom = ET.fromstring(response.content)
-        for xpath in expected_feed_structure:
-            self.assertIsNotNone(atom.find(xpath, namespace))
+        """Validates the Atom feed against its schema."""
+        atom_feed = feeds.LatestEventsFeed()
+        request = self.factory.get('/')
+        response = atom_feed(request)
+        schema_path = os.path.join(self.data_path, 'atom_schema.xsd')
+        with open(schema_path, 'r') as schema_file:
+            schema_root = etree.parse(schema_file)
+        try:
+            schema = etree.XMLSchema(schema_root)
+        except etree.XMLSchemaParseError:
+            assert False
+        premis = etree.fromstring(response.content)
+        assert schema.validate(premis)
