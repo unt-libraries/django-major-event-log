@@ -6,6 +6,7 @@
         <name>Major Event Log</name>
         <uri>http://digital2.library.unt.edu/name/nm0005293/</uri>
     </author>
+    <link href="{{ event_details_url }}" rel="alternate"/>
     <content type="application/xml">
         {% include 'major-event-log/event_premis.xml' %}
     </content>
