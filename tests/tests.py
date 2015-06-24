@@ -249,6 +249,20 @@ class TestXML(TestCase):
         cls.event = create_event()
         cls.factory = RequestFactory()
 
+    def test_atom_xml(self):
+        """Validates the Atom items against their schema."""
+        request = self.factory.get('/')
+        response = views.event_atom(request, str(self.event.id))
+        schema_path = os.path.join(self.data_path, 'atom-premis_schema.xsd')
+        with open(schema_path, 'r') as schema_file:
+            schema_root = etree.parse(schema_file)
+        try:
+            schema = etree.XMLSchema(schema_root)
+        except etree.XMLSchemaParseError:
+            assert False
+        atom_item = etree.fromstring(response.content)
+        assert schema.validate(atom_item)
+
     def test_event_premis_xml(self):
         """Validates the PREMIS XML against its schema."""
         request = self.factory.get('/')
