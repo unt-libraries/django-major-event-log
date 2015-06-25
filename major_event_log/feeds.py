@@ -9,14 +9,22 @@ from .models import Event
 
 
 class PaginatedAtom1FeedMixin(object):
+    """Mixin to enable pagination for feeds using Atom1Feed"""
 
     def _create_link_attr(self, rel, page):
+        """Helper function to compose the attributes dictionary argument
+        that handler.addQuickElement accepts.
+        """
         href = u'{0}?{1}={2}'.format(
             self.feed['link'], self.feed['page_field'], page)
 
         return {u'rel': rel, u'href': href}
 
     def add_root_elements(self, handler):
+        """This method overrides the Atom1Feed.add_root_elements
+        in order to place the additional link elements into the
+        desired location in the document.
+        """
         handler.addQuickElement("title", self.feed['title'])
         handler.addQuickElement(
             "link", "", {"rel": "alternate", "href": self.feed['link']})
@@ -80,21 +88,33 @@ class MajorEventLogFeed(PaginatedAtom1FeedMixin, Atom1Feed):
 
 
 class PaginatedFeedMixin(object):
+    """Feed Mixin to enable pagination."""
+
     paginator = None
     page = 1
     items_per_page = 10
     page_field = 'page'
 
     def setup_paginator(self, request, items):
+        """Instantiates the paginator object and attaches
+        it to self.
+
+        This needs to be called from `get_object` in order to receive
+        the request object.
+        """
         self.page = request.GET.get(self.page_field, 1)
         self.paginator = Paginator(items, self.items_per_page)
 
-    def get_page(self):
+    def get_current_page(self):
+        """Get the current page of the Paginator."""
         return self.paginator.page(self.page)
 
     def get_page_kwargs(self):
-        page = self.get_page()
+        """Returns the keyword arguments for the page links.
 
+        This is intended to be called from `feed_extra_kwargs`.
+        """
+        page = self.get_page()
         kwargs = {}
 
         kwargs.setdefault('page_field', self.page_field)
@@ -126,7 +146,7 @@ class LatestEventsFeed(PaginatedFeedMixin, Feed):
         return self.get_page_kwargs()
 
     def items(self, obj):
-        return self.get_page().object_list
+        return self.get_current_page().object_list
 
     def item_title(self, item):
         return item.title
