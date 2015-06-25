@@ -120,7 +120,7 @@ class PaginatedFeedMixin(object):
 
         This is intended to be called from `feed_extra_kwargs`.
         """
-        page = self.get_page()
+        page = self.get_current_page()
         kwargs = {}
 
         kwargs.setdefault('page_field', self.page_field)
