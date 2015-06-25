@@ -98,6 +98,83 @@ class TestViewsCalled(TestCase):
         self.assertEqual(resolve(url).func, views.about)
 
 
+class TestFeed(TestCase):
+    """Test the custom pagination functionality added to the feed."""
+
+    @classmethod
+    def setUpTestData(cls):
+        [create_event() for _ in range(31)]
+
+    def test_has_first_link(self):
+        """Check that the href on the `first` link is present and
+        correct.
+        """
+        url = reverse('major-event-log:feed')
+        response = self.client.get(url, {'p': 2})
+        feed = etree.fromstring(response.content)
+
+        link = feed.xpath(
+            '/ns:feed/ns:link[@rel=\'first\']',
+            namespaces={'ns': 'http://www.w3.org/2005/Atom'}
+        )
+        self.assertTrue('/feed/?p=1' in link[0].attrib.get('href'))
+
+    def test_has_next_link(self):
+        """Check that the href on the `next` link is present and
+        correct.
+        """
+        url = reverse('major-event-log:feed')
+        response = self.client.get(url, {'p': 2})
+        feed = etree.fromstring(response.content)
+
+        link = feed.xpath(
+            '/ns:feed/ns:link[@rel=\'next\']',
+            namespaces={'ns': 'http://www.w3.org/2005/Atom'}
+        )
+        self.assertTrue('/feed/?p=3' in link[0].attrib.get('href'))
+
+    def test_has_previous_link(self):
+        """Check that the href on the `previous` link is present and
+        correct.
+        """
+        url = reverse('major-event-log:feed')
+        response = self.client.get(url, {'p': 2})
+        feed = etree.fromstring(response.content)
+
+        link = feed.xpath(
+            '/ns:feed/ns:link[@rel=\'previous\']',
+            namespaces={'ns': 'http://www.w3.org/2005/Atom'}
+        )
+
+        self.assertTrue('/feed/?p=1' in link[0].attrib.get('href'))
+
+    def test_has_last_link(self):
+        """Check that the href on the `last` link is present and
+        correct.
+        """
+        url = reverse('major-event-log:feed')
+        response = self.client.get(url, {'p': 2})
+        feed = etree.fromstring(response.content)
+
+        link = feed.xpath(
+            '/ns:feed/ns:link[@rel=\'last\']',
+            namespaces={'ns': 'http://www.w3.org/2005/Atom'}
+        )
+        self.assertTrue('/feed/?p=4' in link[0].attrib.get('href'))
+
+    def test_number_of_items_per_page(self):
+        """Check that, at most, 10 events are listed per page."""
+        url = reverse('major-event-log:feed')
+        response = self.client.get(url)
+        feed = etree.fromstring(response.content)
+
+        entries = feed.xpath(
+            '/ns:feed/ns:entry',
+            namespaces={'ns': 'http://www.w3.org/2005/Atom'}
+        )
+        self.assertEqual(len(entries), 10)
+
+
 class TestTemplateUsed(TestCase):
     """Test that the correct template is called by the views."""
 
