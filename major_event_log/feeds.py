@@ -26,8 +26,6 @@ class PaginatedAtom1FeedMixin(object):
         desired location in the document.
         """
         handler.addQuickElement('title', self.feed['title'])
-        handler.addQuickElement(
-            'link', '', {'rel': 'alternate', 'href': self.feed['link']})
 
         if self.feed['feed_url'] is not None:
             handler.addQuickElement(
@@ -87,14 +85,14 @@ class MajorEventLogFeed(PaginatedAtom1FeedMixin, Atom1Feed):
 
     The only changes between this custom feed and the base Atom Feed
     are that this feed specifies its mime_type as 'application/xml',
-    pagination is added, the 'alternate' link is removed.
+    pagination is added, and the 'alternate' link is removed.
     """
 
     mime_type = 'application/xml'
 
 
 class PaginatedFeedMixin(object):
-    """Feed Mixin to enable pagination."""
+    """Feed mixin to enable pagination."""
 
     paginator = None
     page = 1
