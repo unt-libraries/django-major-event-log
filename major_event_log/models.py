@@ -10,11 +10,11 @@ from django.core.urlresolvers import reverse
 
 
 class Event(models.Model):
-    SUCCESS = "http://purl.org/NET/UNTL/vocabularies/eventOutcomes/#success"
-    FAILURE = "http://purl.org/NET/UNTL/vocabularies/eventOutcomes/#failure"
+    SUCCESS = 'http://purl.org/NET/UNTL/vocabularies/eventOutcomes/#success'
+    FAILURE = 'http://purl.org/NET/UNTL/vocabularies/eventOutcomes/#failure'
     OUTCOME_CHOICES = (
-        (SUCCESS, "Success"),
-        (FAILURE, "Failure"),
+        (SUCCESS, 'Success'),
+        (FAILURE, 'Failure'),
     )
     # Unique identifier for each event. Primary key.
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -29,7 +29,7 @@ class Event(models.Model):
     entry_modified = models.DateTimeField(auto_now=True)
     # The contact_name attribute will be used as the reporting agent.
     contact_name = models.CharField(max_length=100,
-                                    help_text="Appears as the Reporting Agent")
+                                    help_text='Appears as the Reporting Agent')
     contact_email = models.EmailField()
 
     def get_absolute_url(self):
@@ -39,7 +39,7 @@ class Event(models.Model):
         return self.outcome == self.SUCCESS
 
     class Meta:
-        ordering = ["date"]
+        ordering = ['date']
 
     def __unicode__(self):
         return self.title

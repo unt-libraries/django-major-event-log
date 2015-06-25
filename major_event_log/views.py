@@ -25,7 +25,7 @@ def get_event_or_404(event_id):
     try:
         uuid.UUID(event_id)
     except ValueError:
-        raise Http404("Invalid event ID")
+        raise Http404('Invalid event ID')
     return get_object_or_404(Event.objects, id=event_id)
 
 

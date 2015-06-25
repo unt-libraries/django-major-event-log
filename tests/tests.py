@@ -181,7 +181,7 @@ class TestModelMethods(TestCase):
         This method should return the URL of the event details page
         for that specific event.
         """
-        expected = reverse("major-event-log:event_details",
+        expected = reverse('major-event-log:event_details',
                            args=[self.event.id])
         self.assertEqual(self.event.get_absolute_url(), expected)
 

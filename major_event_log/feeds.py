@@ -13,42 +13,42 @@ class MajorEventLogFeed(Atom1Feed):
 
     The only changes between this custom feed and the base Atom Feed
     are that this feed specifies its mime_type as 'application/xml',
-    pagination is added, the "alternate" link is removed.
+    pagination is added, the 'alternate' link is removed.
     """
 
     mime_type = 'application/xml'
 
     def add_root_elements(self, handler):
-        handler.addQuickElement(u"title", self.feed['title'])
+        handler.addQuickElement(u'title', self.feed['title'])
         handler.addQuickElement(
-            u"link", "", {u"rel": u"self", u"href": self.feed['feed_url']}
+            u'link', '', {u'rel': u'self', u'href': self.feed['feed_url']}
         )
-        handler.addQuickElement(u"id", self.feed['id'])
-        handler.startElement(u"author", {})
-        handler.addQuickElement(u"name", self.feed['author_name'])
-        handler.addQuickElement(u"uri", self.feed['author_link'])
-        handler.endElement(u"author")
-        handler.addQuickElement(u"subtitle", self.feed['subtitle'])
+        handler.addQuickElement(u'id', self.feed['id'])
+        handler.startElement(u'author', {})
+        handler.addQuickElement(u'name', self.feed['author_name'])
+        handler.addQuickElement(u'uri', self.feed['author_link'])
+        handler.endElement(u'author')
+        handler.addQuickElement(u'subtitle', self.feed['subtitle'])
         handler.addQuickElement(
-            u"link",
-            "",
-            {u"rel": u"first", u"href": self.feed['link'] + '?p=1'}
+            u'link',
+            '',
+            {u'rel': u'first', u'href': self.feed['link'] + '?p=1'}
         )
         handler.addQuickElement(
-            u"link",
-            "",
+            u'link',
+            '',
             {
-                u"rel": u"last",
-                u"href": self.feed['link'] + '?p=%s' % self.feed['last_link']
+                u'rel': u'last',
+                u'href': self.feed['link'] + '?p=%s' % self.feed['last_link']
             }
         )
         if self.feed.get('prev_link', None) is not None:
             handler.addQuickElement(
-                u"link",
-                "",
+                u'link',
+                '',
                 {
-                    u"rel": u"previous",
-                    u"href": '%s?p=%s' % (
+                    u'rel': u'previous',
+                    u'href': '%s?p=%s' % (
                         self.feed['link'],
                         self.feed['prev_link']
                     )
@@ -56,11 +56,11 @@ class MajorEventLogFeed(Atom1Feed):
             )
         if self.feed.get('next_link', None) is not None:
             handler.addQuickElement(
-                u"link",
-                "",
+                u'link',
+                '',
                 {
-                    u"rel": u"next",
-                    u"href": '%s?p=%s' % (
+                    u'rel': u'next',
+                    u'href': '%s?p=%s' % (
                         self.feed['link'],
                         self.feed['next_link']
                     )
@@ -70,11 +70,11 @@ class MajorEventLogFeed(Atom1Feed):
 
 class LatestEventsFeed(Feed):
     feed_type = MajorEventLogFeed
-    title = "PREMIS Major Event Log"
-    link = reverse_lazy("major-event-log:feed")
-    subtitle = "10 most recent major PREMIS events."
-    author_name = "Major Event Log"
-    author_link = "http://digital2.library.unt.edu/name/nm0005293/"
+    title = 'PREMIS Major Event Log'
+    link = reverse_lazy('major-event-log:feed')
+    subtitle = '10 most recent major PREMIS events.'
+    author_name = 'Major Event Log'
+    author_link = 'http://digital2.library.unt.edu/name/nm0005293/'
 
     def get_object(self, request):
         display = Event.objects.order_by('-date')
