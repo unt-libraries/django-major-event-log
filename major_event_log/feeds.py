@@ -2,7 +2,7 @@
 
 from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse, reverse_lazy
-from django.utils.feedgenerator import Atom1Feed
+from django.utils.feedgenerator import Atom1Feed, rfc3339_date
 from django.core.paginator import Paginator
 
 from .models import Event
@@ -17,7 +17,6 @@ class PaginatedFeedTypeMixin(object):
         return {u'rel': rel, u'href': href}
 
     def add_root_elements(self, handler):
-        from django.utils.feedgenerator import rfc3339_date
         handler.addQuickElement("title", self.feed['title'])
         handler.addQuickElement(
             "link", "", {"rel": "alternate", "href": self.feed['link']})
