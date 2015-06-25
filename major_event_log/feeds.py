@@ -22,18 +22,32 @@ class PaginatedFeedTypeMixin(object):
             "link", "", {"rel": "alternate", "href": self.feed['link']})
 
         if self.feed['feed_url'] is not None:
-            handler.addQuickElement("link", "", {"rel": "self", "href": self.feed['feed_url']})
+            handler.addQuickElement(
+                "link", "", {"rel": "self", "href": self.feed['feed_url']})
 
-        handler.addQuickElement(u'link', '', self._create_link_attr(u'first', 1))
-        handler.addQuickElement(u'link', '', self._create_link_attr(u'last', self.feed['last_page']))
+        handler.addQuickElement(
+            u'link', '', self._create_link_attr(u'first', 1))
+
+        handler.addQuickElement(
+            u'link',
+            '',
+            self._create_link_attr(u'last', self.feed['last_page']))
 
         if self.feed.get('prev_page', None) is not None:
-            handler.addQuickElement(u'link', '', self._create_link_attr(u'prev_page', self.feed['prev_page']))
+            handler.addQuickElement(
+                u'link',
+                '',
+                self._create_link_attr(u'prev_page', self.feed['prev_page']))
+
         if self.feed.get('next_page', None) is not None:
-            handler.addQuickElement(u'link', '', self._create_link_attr(u'next_page', self.feed['next_page']))
+            handler.addQuickElement(
+                u'link',
+                '',
+                self._create_link_attr(u'next_page', self.feed['next_page']))
 
         handler.addQuickElement("id", self.feed['id'])
-        handler.addQuickElement("updated", rfc3339_date(self.latest_post_date()))
+        handler.addQuickElement(
+            "updated", rfc3339_date(self.latest_post_date()))
 
         if self.feed['author_name'] is not None:
             handler.startElement("author", {})
