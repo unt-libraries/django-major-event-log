@@ -8,7 +8,7 @@ from django.core.paginator import Paginator
 from .models import Event
 
 
-class PaginatedFeedTypeMixin(object):
+class PaginatedAtom1FeedMixin(object):
 
     def _create_link_attr(self, rel, page):
         href = u'{0}?{1}={2}'.format(
@@ -68,7 +68,7 @@ class PaginatedFeedTypeMixin(object):
             handler.addQuickElement("rights", self.feed['feed_copyright'])
 
 
-class MajorEventLogFeed(PaginatedFeedTypeMixin, Atom1Feed):
+class MajorEventLogFeed(PaginatedAtom1FeedMixin, Atom1Feed):
     """Custom Atom Feed for Event objects.
 
     The only changes between this custom feed and the base Atom Feed
