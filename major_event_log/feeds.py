@@ -12,7 +12,7 @@ class PaginatedFeedTypeMixin(object):
 
     def _create_link_attr(self, rel, page):
         href = u'{0}?{1}={2}'.format(
-            self.feed['link'], self.feed['page_query'], page)
+            self.feed['link'], self.feed['page_field'], page)
 
         return {u'rel': rel, u'href': href}
 
@@ -69,10 +69,10 @@ class PaginatedFeedMixin(object):
     paginator = None
     page = 1
     items_per_page = 10
-    page_query = 'page'
+    page_field = 'page'
 
     def setup_paginator(self, request, items):
-        self.page = request.GET.get(self.page_query, 1)
+        self.page = request.GET.get(self.page_field, 1)
         self.paginator = Paginator(items, self.items_per_page)
 
     def get_page(self):
@@ -83,7 +83,7 @@ class PaginatedFeedMixin(object):
 
         kwargs = {}
 
-        kwargs.setdefault('page_query', self.page_query)
+        kwargs.setdefault('page_field', self.page_field)
         if page.has_next():
             kwargs.setdefault('next_page', page.next_page_number())
 
@@ -101,7 +101,7 @@ class LatestEventsFeed(PaginatedFeedMixin, Feed):
     subtitle = '10 most recent major PREMIS events.'
     author_name = 'Major Event Log'
     author_link = 'http://digital2.library.unt.edu/name/nm0005293/'
-    page_query = 'p'
+    page_field = 'p'
 
     def get_object(self, request):
         display = Event.objects.order_by('-date')
