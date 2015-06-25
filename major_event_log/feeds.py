@@ -118,9 +118,9 @@ class LatestEventsFeed(PaginatedFeedMixin, Feed):
     page_field = 'p'
 
     def get_object(self, request):
-        display = Event.objects.order_by('-date')
-        self.setup_paginator(request, display)
-        return display
+        events = Event.objects.order_by('-date')
+        self.setup_paginator(request, events)
+        return events
 
     def feed_extra_kwargs(self, display):
         return self.get_page_kwargs()
