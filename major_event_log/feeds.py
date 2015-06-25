@@ -44,14 +44,14 @@ class PaginatedAtom1FeedMixin(object):
             handler.addQuickElement(
                 u'link',
                 '',
-                self._create_link_attr(u'prev_page', self.feed['prev_page'])
+                self._create_link_attr(u'previous', self.feed['prev_page'])
             )
 
         if self.feed.get('next_page', None) is not None:
             handler.addQuickElement(
                 u'link',
                 '',
-                self._create_link_attr(u'next_page', self.feed['next_page'])
+                self._create_link_attr(u'next', self.feed['next_page'])
             )
 
         handler.addQuickElement('id', self.feed['id'])
