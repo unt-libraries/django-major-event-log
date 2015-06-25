@@ -32,14 +32,15 @@ class MajorEventLogFeed(Atom1Feed):
         handler.addQuickElement(
             u'link',
             '',
-            {u'rel': u'first', u'href': self.feed['link'] + '?p=1'}
+            {u'rel': u'first', u'href': '{}?p=1'.format(self.feed['link'])}
         )
         handler.addQuickElement(
             u'link',
             '',
             {
                 u'rel': u'last',
-                u'href': self.feed['link'] + '?p=%s' % self.feed['last_link']
+                u'href': '{}?p={}'.format(self.feed['link'],
+                                          self.feed['last_link'])
             }
         )
         if self.feed.get('prev_link', None) is not None:
@@ -48,10 +49,8 @@ class MajorEventLogFeed(Atom1Feed):
                 '',
                 {
                     u'rel': u'previous',
-                    u'href': '%s?p=%s' % (
-                        self.feed['link'],
-                        self.feed['prev_link']
-                    )
+                    u'href': '{}?p={}'.format(self.feed['link'],
+                                              self.feed['prev_link'])
                 }
             )
         if self.feed.get('next_link', None) is not None:
@@ -60,10 +59,8 @@ class MajorEventLogFeed(Atom1Feed):
                 '',
                 {
                     u'rel': u'next',
-                    u'href': '%s?p=%s' % (
-                        self.feed['link'],
-                        self.feed['next_link']
-                    )
+                    u'href': '{}?p={}'.format(self.feed['link'],
+                                              self.feed['next_link'])
                 }
             )
 
