@@ -68,7 +68,7 @@ class MajorEventLogFeed(PaginatedFeedTypeMixin, Atom1Feed):
 class PaginatedFeedMixin(object):
     paginator = None
     page = 1
-    items_per_page = 2
+    items_per_page = 10
     page_query = 'page'
 
     def setup_paginator(self, request, items):
