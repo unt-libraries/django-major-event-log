@@ -39,19 +39,22 @@ class PaginatedAtom1FeedMixin(object):
         handler.addQuickElement(
             u'link',
             '',
-            self._create_link_attr(u'last', self.feed['last_page']))
+            self._create_link_attr(u'last', self.feed['last_page'])
+        )
 
         if self.feed.get('prev_page', None) is not None:
             handler.addQuickElement(
                 u'link',
                 '',
-                self._create_link_attr(u'prev_page', self.feed['prev_page']))
+                self._create_link_attr(u'prev_page', self.feed['prev_page'])
+            )
 
         if self.feed.get('next_page', None) is not None:
             handler.addQuickElement(
                 u'link',
                 '',
-                self._create_link_attr(u'next_page', self.feed['next_page']))
+                self._create_link_attr(u'next_page', self.feed['next_page'])
+            )
 
         handler.addQuickElement('id', self.feed['id'])
         handler.addQuickElement(
@@ -60,10 +63,13 @@ class PaginatedAtom1FeedMixin(object):
         if self.feed['author_name'] is not None:
             handler.startElement('author', {})
             handler.addQuickElement('name', self.feed['author_name'])
+
             if self.feed['author_email'] is not None:
                 handler.addQuickElement('email', self.feed['author_email'])
+
             if self.feed['author_link'] is not None:
                 handler.addQuickElement('uri', self.feed['author_link'])
+
             handler.endElement('author')
 
         if self.feed['subtitle'] is not None:
