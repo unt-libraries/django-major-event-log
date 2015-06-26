@@ -136,7 +136,6 @@ class LatestEventsFeed(PaginatedFeedMixin, Feed):
     feed_type = MajorEventLogFeed
     title = 'PREMIS Major Event Log'
     link = reverse_lazy('major-event-log:feed')
-    subtitle = '10 most recent major PREMIS events.'
     author_name = 'Major Event Log'
     author_link = 'http://digital2.library.unt.edu/name/nm0005293/'
     page_field = 'p'
