@@ -48,6 +48,26 @@ sorted by the event date, not the creation or modified dates.
 Finally, there is also a small `About` page which contains a description of the
 application.
 
+Requirements
+--------------------------
+
+### Deployment ###
+
+Django == 1.8 `sudo pip install django`
+Python >= 2.7
+
+### Development ###
+
+See Deployment
+
+#### Testing ####
+
+All requirements from Development
+lxml
+flake8
+Python 2.7
+Python 3.4
+
 Installation
 --------------------------
 
@@ -59,7 +79,7 @@ Installation
 2.  Install
 
     Install with `pip install https://github.com/unt-libraries/django-major-event-log`
-    
+
 License
 -------------------------
 
@@ -73,4 +93,11 @@ Django-major-event-log was developed at the UNT Libraries.
 Contributors:
 
 * [Gio Gottardi](https://github.com/somexpert)
+* [Damon Kelley](https://github.com/damonkelley)
 
+Developing/Testing
+-------------------------
+
+#### Running the tests ####
+
+Simply invoke the tox test runner by running `tox` anywhere within the app.
