@@ -1,9 +1,9 @@
 """Creates the Atom feed for the major PREMIS events."""
 
-from django.contrib.syndication.views import Feed
-from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.feedgenerator import Atom1Feed, rfc3339_date
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.core.paginator import Paginator
+from django.contrib.syndication.views import Feed
 
 from .models import Event
 

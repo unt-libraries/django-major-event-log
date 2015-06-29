@@ -330,10 +330,7 @@ class TestXML(TestCase):
         schema_path = os.path.join(data_path, schema_name)
         with open(schema_path, 'r') as schema_file:
             schema_root = etree.parse(schema_file)
-        try:
-            schema = etree.XMLSchema(schema_root)
-        except etree.XMLSchemaParseError:
-            assert False
+        schema = etree.XMLSchema(schema_root)
         return schema
 
     def test_atom_xml(self):
@@ -342,7 +339,7 @@ class TestXML(TestCase):
         response = views.event_atom(request, str(self.event.id))
         schema = self.get_schema('atom-premis_schema.xsd')
         atom_item = etree.fromstring(response.content)
-        assert schema.validate(atom_item)
+        self.assertTrue(schema.validate(atom_item))
 
     def test_event_premis_xml(self):
         """Validates the PREMIS XML against its schema."""
@@ -350,7 +347,7 @@ class TestXML(TestCase):
         response = views.event_premis(request, str(self.event.id))
         schema = self.get_schema('premis_schema.xsd')
         premis = etree.fromstring(response.content)
-        assert schema.validate(premis)
+        self.assertTrue(schema.validate(premis))
 
     def test_feed_xml(self):
         """Validates the Atom feed against its schema."""
@@ -359,4 +356,4 @@ class TestXML(TestCase):
         response = atom_feed(request)
         premis = etree.fromstring(response.content)
         schema = self.get_schema('atom_schema.xsd')
-        assert schema.validate(premis)
+        self.assertTrue(schema.validate(premis))
