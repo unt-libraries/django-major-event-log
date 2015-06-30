@@ -29,7 +29,10 @@ class PaginatedAtom1FeedMixin(object):
 
         if self.feed['feed_url'] is not None:
             handler.addQuickElement(
-                'link', '', {'rel': 'self', 'href': self.feed['feed_url']})
+                u'link',
+                '',
+                self._create_link_attr(u'self', self.feed['cr_page'])
+            )
 
         handler.addQuickElement(
             u'link', '', self._create_link_attr(u'first', 1))
@@ -129,6 +132,8 @@ class PaginatedFeedMixin(object):
             kwargs.setdefault('prev_page', page.previous_page_number())
 
         kwargs.setdefault('last_page', str(self.paginator.num_pages))
+        kwargs.setdefault('cr_page', page.number)
+
         return kwargs
 
 
