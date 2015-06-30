@@ -105,16 +105,22 @@ first need to install virtualenv with the following command:
 `$ [sudo] pip install virtualenv`
 Then, you will need to set up a virtual environment by navigating to the
 location you want your environment created and running:
-`$ [sudo] virtualenv --python=python2.7 new_virtualenv_name`
+`$ virtualenv --python=python2.7 new_virtualenv_name`
 This will create a directory called new\_virtualenv\_name that is the virutal
 environment. Next, you'll need to get inside the new directory with:
 `$ cd new\_virtualenv\_name`
 and then activate the new virtual environment:
 `$ source ./bin/activate` (after testing, exit the virtual environment with `$ deactivate`)
+You will need to install Django into the virtual env to be able to test out the
+app with Django's development server:
+`$ pip install django==1.8`
 Now you need to get the source files for the app by cloning the git repository:
 `$ git clone https://github.com/unt-libraries/django-major-event-log`
 and navigate to within the new directory:
 `$ cd django-major-event-log`
+Now, in order to be able to use the app, you must first initialize the database
+by running:
+`$ python manage.py migrate`
 You should take this time to create a superuser for the app so you can create
 test events that will let you see what the site will look like with a populated
 database:
@@ -131,7 +137,9 @@ You should now be able to access both the admin portion of the app at
 
 #### Running the tests ####
 
-Simply invoke the tox test runner by running `tox` anywhere within the app.
+Simply invoke the tox test runner by running `tox` anywhere within the app (if
+you are running in a virtual environment, you will first need to install tox
+with `$ pip install tox`).
 `$ tox`
 If you don't wish to test using tox, you can also simply use Django's test
 runner by navigating to the root of the git repositor and running:
