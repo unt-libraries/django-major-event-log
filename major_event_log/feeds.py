@@ -141,7 +141,7 @@ class LatestEventsFeed(PaginatedFeedMixin, Feed):
     page_field = 'p'
 
     def get_object(self, request):
-        events = Event.objects.order_by('-date')
+        events = Event.objects.order_by('-entry_created')
         self.setup_paginator(request, events)
         return events
 

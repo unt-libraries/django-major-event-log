@@ -31,7 +31,7 @@ def get_event_or_404(event_id):
 
 class EventList(ListView):
     template_name = 'major-event-log/index.html'
-    queryset = Event.objects.order_by('-date')
+    queryset = Event.objects.order_by('-entry_created')
     context_object_name = 'events'
     paginate_by = 10
 
