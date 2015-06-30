@@ -12,10 +12,10 @@ class EventAdmin(admin.ModelAdmin):
         ('Event date', {'fields': ['date']}),
         ('Contact info', {'fields': ['contact_name', 'contact_email']}),
     ]
-    # Show the title, date, and outcome in the event list.
-    list_display = ('title', 'date', 'outcome')
+    # Show the title, date, creation_date, and outcome in the event list.
+    list_display = ('title', 'date', 'entry_created', 'outcome')
     # Allow an admin to filter events by the event date.
-    list_filter = ['date']
+    list_filter = ['date', 'entry_created']
     # Allow an admin to search events by title.
     search_fields = ['title']
 

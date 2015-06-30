@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:import namespace="http://www.w3.org/2005/Atom" schemaLocation="atom_schema.xsd"/>
+    <xs:import namespace="info:lc/xmlns/premis-v2" schemaLocation="premis_schema.xsd"/>
+</xs:schema>

@@ -25,13 +25,13 @@ def get_event_or_404(event_id):
     try:
         uuid.UUID(event_id)
     except ValueError:
-        raise Http404("Invalid event ID")
+        raise Http404('Invalid event ID')
     return get_object_or_404(Event.objects, id=event_id)
 
 
 class EventList(ListView):
     template_name = 'major-event-log/index.html'
-    queryset = Event.objects.order_by('-date')
+    queryset = Event.objects.order_by('-entry_created')
     context_object_name = 'events'
     paginate_by = 10
 

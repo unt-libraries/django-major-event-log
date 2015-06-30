@@ -1,12 +1,15 @@
-import xml.etree.ElementTree as ET
+import os
+
+from lxml import etree
 
 from django.core.urlresolvers import reverse, resolve
+from django.test import TestCase, RequestFactory
 from django.utils import timezone
-from django.test import TestCase
 from django.http import Http404
 
 from major_event_log.models import Event
 from major_event_log import views
+from major_event_log import feeds
 
 
 def create_event(title='test', outcome='Success', name='John Doe'):
@@ -95,6 +98,83 @@ class TestViewsCalled(TestCase):
         self.assertEqual(resolve(url).func, views.about)
 
 
+class TestFeed(TestCase):
+    """Test the custom pagination functionality added to the feed."""
+
+    @classmethod
+    def setUpTestData(cls):
+        [create_event() for _ in range(31)]
+
+    def test_has_first_link(self):
+        """Check that the href on the `first` link is present and
+        correct.
+        """
+        url = reverse('major-event-log:feed')
+        response = self.client.get(url, {'p': 2})
+        feed = etree.fromstring(response.content)
+
+        link = feed.xpath(
+            '/ns:feed/ns:link[@rel=\'first\']',
+            namespaces={'ns': 'http://www.w3.org/2005/Atom'}
+        )
+        self.assertTrue('/feed/?p=1' in link[0].attrib.get('href'))
+
+    def test_has_next_link(self):
+        """Check that the href on the `next` link is present and
+        correct.
+        """
+        url = reverse('major-event-log:feed')
+        response = self.client.get(url, {'p': 2})
+        feed = etree.fromstring(response.content)
+
+        link = feed.xpath(
+            '/ns:feed/ns:link[@rel=\'next\']',
+            namespaces={'ns': 'http://www.w3.org/2005/Atom'}
+        )
+        self.assertTrue('/feed/?p=3' in link[0].attrib.get('href'))
+
+    def test_has_previous_link(self):
+        """Check that the href on the `previous` link is present and
+        correct.
+        """
+        url = reverse('major-event-log:feed')
+        response = self.client.get(url, {'p': 2})
+        feed = etree.fromstring(response.content)
+
+        link = feed.xpath(
+            '/ns:feed/ns:link[@rel=\'previous\']',
+            namespaces={'ns': 'http://www.w3.org/2005/Atom'}
+        )
+
+        self.assertTrue('/feed/?p=1' in link[0].attrib.get('href'))
+
+    def test_has_last_link(self):
+        """Check that the href on the `last` link is present and
+        correct.
+        """
+        url = reverse('major-event-log:feed')
+        response = self.client.get(url, {'p': 2})
+        feed = etree.fromstring(response.content)
+
+        link = feed.xpath(
+            '/ns:feed/ns:link[@rel=\'last\']',
+            namespaces={'ns': 'http://www.w3.org/2005/Atom'}
+        )
+        self.assertTrue('/feed/?p=4' in link[0].attrib.get('href'))
+
+    def test_number_of_items_per_page(self):
+        """Check that, at most, 10 events are listed per page."""
+        url = reverse('major-event-log:feed')
+        response = self.client.get(url)
+        feed = etree.fromstring(response.content)
+
+        entries = feed.xpath(
+            '/ns:feed/ns:entry',
+            namespaces={'ns': 'http://www.w3.org/2005/Atom'}
+        )
+        self.assertEqual(len(entries), 10)
+
+
 class TestTemplateUsed(TestCase):
     """Test that the correct template is called by the views."""
 
@@ -178,7 +258,7 @@ class TestModelMethods(TestCase):
         This method should return the URL of the event details page
         for that specific event.
         """
-        expected = reverse("major-event-log:event_details",
+        expected = reverse('major-event-log:event_details',
                            args=[self.event.id])
         self.assertEqual(self.event.get_absolute_url(), expected)
 
@@ -241,56 +321,39 @@ class TestXML(TestCase):
     def setUpTestData(cls):
         """Set up the events for use in the tests in this class."""
         cls.event = create_event()
+        cls.factory = RequestFactory()
 
-    def test_event_atom_xml(self):
-        """Checks for the correct structure within the Atom XML."""
-        namespace = {'default': 'http://www.w3.org/2005/Atom'}
-        expected_xml_structure = [
-            './default:title',
-            './default:id',
-            './default:updated',
-            './default:author/default:name',
-            './default:content'
-        ]
-        response = self.client.get(reverse('major-event-log:event_atom',
-                                           args=[self.event.id]))
-        atom = ET.fromstring(response.content)
-        for xpath in expected_xml_structure:
-            self.assertIsNotNone(atom.find(xpath, namespace))
+    def get_schema(self, schema_name):
+        """Retrieves the XML schema and returns an XML schema validator."""
+        data_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                 'data')
+        schema_path = os.path.join(data_path, schema_name)
+        with open(schema_path, 'r') as schema_file:
+            schema_root = etree.parse(schema_file)
+        schema = etree.XMLSchema(schema_root)
+        return schema
+
+    def test_atom_xml(self):
+        """Validates the Atom items against their schema."""
+        request = self.factory.get('/')
+        response = views.event_atom(request, str(self.event.id))
+        schema = self.get_schema('atom-premis_schema.xsd')
+        atom_item = etree.fromstring(response.content)
+        self.assertTrue(schema.validate(atom_item))
 
     def test_event_premis_xml(self):
-        """Checks for the correct structure within the Atom XML."""
-        namespace = {'prms': 'info:lc/xmlns/premis-v2'}
-        expected_premis_structure = [
-            './prms:eventDetail',
-            './prms:eventOutcomeInformation/prms:eventOutcomeDetail',
-            './prms:eventOutcomeInformation/prms:eventOutcome',
-            './prms:eventType',
-            './prms:linkingAgentIdentifier/prms:linkingAgentIdentifierValue',
-            './prms:linkingAgentIdentifier/prms:linkingAgentIdentifierType',
-            './prms:eventIdentifier/prms:eventIdentifierValue',
-            './prms:eventIdentifier/prms:eventIdentifierType',
-            './prms:eventDateTime'
-        ]
-        response = self.client.get(reverse('major-event-log:event_premis',
-                                           args=[self.event.id]))
-        # Make sure that the PREMIS event has the expected structure.
-        atom = ET.fromstring(response.content)
-        for xpath in expected_premis_structure:
-            self.assertIsNotNone(atom.find(xpath, namespace))
+        """Validates the PREMIS XML against its schema."""
+        request = self.factory.get('/')
+        response = views.event_premis(request, str(self.event.id))
+        schema = self.get_schema('premis_schema.xsd')
+        premis = etree.fromstring(response.content)
+        self.assertTrue(schema.validate(premis))
 
     def test_feed_xml(self):
-        """Checks for the correct structure within the Atom feed's XML."""
-        namespace = {'default': 'http://www.w3.org/2005/Atom'}
-        expected_feed_structure = [
-            './default:title',
-            './default:link',
-            './default:id',
-            './default:updated',
-            './default:subtitle',
-            './default:entry'
-        ]
-        response = self.client.get(reverse('major-event-log:feed'))
-        atom = ET.fromstring(response.content)
-        for xpath in expected_feed_structure:
-            self.assertIsNotNone(atom.find(xpath, namespace))
+        """Validates the Atom feed against its schema."""
+        atom_feed = feeds.LatestEventsFeed()
+        request = self.factory.get('/')
+        response = atom_feed(request)
+        premis = etree.fromstring(response.content)
+        schema = self.get_schema('atom_schema.xsd')
+        self.assertTrue(schema.validate(premis))
