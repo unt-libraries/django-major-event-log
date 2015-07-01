@@ -6,3 +6,4 @@
 *.pyc
 *.swp
 *.egg-info
+/docs/_*

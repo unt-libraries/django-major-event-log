@@ -30,7 +30,7 @@ Installation
 
 1. Install with the following command (in the root of the app directory)
 
-        $ pip install major-event-log
+        $ [sudo] pip install major-event-log
 
 2. Add `major_event_log` to your `INSTALLED_APPS`. Be sure to add `django.contrib.admin` (and its dependencies) and `django.contrib.humanize` if they are not already present. Your `INSTALLED_APPS` should look like the following (at the minimum):
 
