@@ -78,7 +78,5 @@ Contributors:
 * [Damon Kelley](https://github.com/damonkelley)
 
 
-Developing/Testing
-------------------
-
-[Read the Docs](http://django-major-event-log.readthedocs.org/en/latest/developing.html)
+[Developing/Testing](http://django-major-event-log.readthedocs.org/en/latest/developing.html)
+--------------------
