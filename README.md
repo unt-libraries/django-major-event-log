@@ -28,11 +28,11 @@ Requirements
 Installation
 --------------------------
 
-1. Install with the following command (in the root of the app directory)
+1. Install the app
 
         $ pip install major-event-log
 
-2. Add `major_event_log` to your `INSTALLED_APPS`. Be sure to add `django.contrib.admin` (and its dependencies) and `django.contrib.humanize` if they are not already present. Your `INSTALLED_APPS` should look like the following (at the minimum):
+2. Add app and all dependencies to INSTALLED_APPS.
 
         INSTALLED_APPS = (
           'django.contrib.admin',
@@ -78,73 +78,7 @@ Contributors:
 * [Damon Kelley](https://github.com/damonkelley)
 
 
-Developing
--------------------------
+Developing/Testing
+------------------
 
-#### Requirements ####
-
-- Django == 1.8
-- Python >= 2.7
-
-#### Setting up the development environment ####
-
-First, get the source files for the app by cloning the git repository:
-
-    $ git clone https://github.com/unt-libraries/django-major-event-log
-
-and navigate to within the new directory:
-
-    $ cd django-major-event-log
-
-Now, in order to be able to use the app, you must first initialize the database
-by running:
-
-    $ python manage.py migrate
-
-You should take this time to create a superuser for the app so you can create
-test events that will let you see what the site will look like with a populated
-database:
-
-    $ python manage.py createsuperuser
-
-which will guide you through creating a superuser with login credentials that
-you can use on the admin portion of the app. Now you should have a development
-environment where you can see all the source code and check out the app using
-Django's development server. To do so, simply execute the following from the
-current location (the root of the git repository):
-
-    $ python manage.py runserver
-
-(press Ctrl-c to stop the development server)
-
-You should now be able to access both the admin portion of the app at
-127.0.0.1:8000/admin/, or the public-facing side of the app at
-127.0.0.1:8000/major-event-log/.
-
-
-Testing
--------
-
-#### Requirements ####
-
-- Django == 1.8
-- tox == 2.0
-- lxml == 3.4
-- Python == 2.7
-- Python == 3.4
-
-#### **System** Requirements ####
-
-- libxml2 >= 2.7.0
-- libxslt >= 1.1.23
-
-#### Running the tests ####
-
-To run the tests in the development environment:
-
-    $ python manage.py test ./tests
-
-You can also run the tests with Tox:
-
-    $ [sudo] pip install tox
-    $ tox
+[Read the Docs](http://django-major-event-log.readthedocs.org/en/latest/developing.html)

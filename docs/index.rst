@@ -18,9 +18,8 @@ Table of Contents
    :maxdepth: 1
     
    installation
+   developing
    model
-   development
-   testing
 
 
 Contributors
