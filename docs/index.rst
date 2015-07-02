@@ -15,11 +15,12 @@ Table of Contents
 =================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
     
    installation
    model
    development
+   testing
 
 
 Contributors

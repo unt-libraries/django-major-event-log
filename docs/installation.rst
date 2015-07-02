@@ -1,11 +1,21 @@
 Installation
+============
+
+Requirements
 ------------
+
+-  Django == 1.8
+-  Python >= 2.7
+
+
+Installing
+----------
 
 1. Install with the following command (in the root of the app directory)
 
    ::
 
-       $ [sudo] pip install major-event-log
+       $ pip install major-event-log
 
 2. Add ``major_event_log`` to your ``INSTALLED_APPS``. Be sure to add
    ``django.contrib.admin`` (and its dependencies) and
@@ -38,7 +48,7 @@ Installation
 
    ::
 
-       $ python manage.py migrate majore-event-log
+       $ python manage.py migrate major-event-log
 
 5. Configure static files
 
