@@ -5,10 +5,9 @@ Install the requirements
 
 ::
 
-    $ pip install -r requirements.txt
+    $ pip install -r requirements-dev.txt
 
-(note that lxml, used in the tests, requires that libxslt and libxml2 be
-installed on the system)
+.. note:: lxml, used in the tests, requires that libxslt and libxml2 be installed on the system.
 
 Clone the git repository:
 
@@ -35,10 +34,8 @@ Start the development server
 
     $ python manage.py runserver
 
-(press Ctrl-c to stop the development server)
-
-You should now be able to access both the admin portion of the app at
-127.0.0.1:8000/admin/, or the public-facing side of the app at
+You should now be able to access the admin portion of the app at
+127.0.0.1:8000/admin/ and the public-facing side of the app at
 127.0.0.1:8000/major-event-log/.
 
 Testing

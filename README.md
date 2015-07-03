@@ -1,21 +1,15 @@
-Notice!
-------------------------------------------------------------
-
-**This application is still being developed! Major components are still in an
-unfinished state!**
-
 Django Major Event Log App [![Build Status](https://travis-ci.org/unt-libraries/django-major-event-log.svg?branch=master)](https://travis-ci.org/unt-libraries/django-major-event-log)
 ============================================================
 
 About
 --------------------------
 
-This Django appplication is designed to keep track of major PREMIS events.
-The app takes care of both creating and viewing these events. The admin site is
-responsible for managing the actual events, which includes creating them as well
-as making modifications to the event date, contact info, description, etc. The
-other pages are responsible for displaying events with various levels of
-detail.
+This Django application is designed to keep track of major events in the PREMIS
+format.  The app takes care of both creating and viewing these events. The
+admin site is responsible for managing the actual events, which includes
+creating them as well as making modifications to the event date, contact info,
+description, etc. The other pages are responsible for displaying events with
+various levels of detail.
 
 
 Requirements
@@ -78,5 +72,7 @@ Contributors:
 * [Damon Kelley](https://github.com/damonkelley)
 
 
-[Developing/Testing](http://django-major-event-log.readthedocs.org/en/latest/developing.html)
---------------------
+Developing/Testing
+------------------
+
+Read the latest documentation [here](http://django-major-event-log.readthedocs.org/en/latest/developing.html).

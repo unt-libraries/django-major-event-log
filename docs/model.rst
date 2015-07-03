@@ -34,9 +34,9 @@ event, or which is responsible for managing the events.
 Methods
 ^^^^^^^
 
-``get_absolute_url()`` - This method simply returns the absolute url which
+``get_absolute_url()`` - This method returns the absolute url which
 points to the event's own details page, minus the domain.
 
-``is_success()`` - This method returns a boolean (True or False) which
+``is_success()`` - This method returns a Boolean (True or False) which
 indicates if the chosen value for ``outcome`` was success. So, if the event
 outcome was a success, then this method would return ``True``.
