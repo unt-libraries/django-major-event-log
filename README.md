@@ -1,4 +1,4 @@
-Django Major Event Log App [![Build Status](https://travis-ci.org/unt-libraries/django-major-event-log.svg?branch=master)](https://travis-ci.org/unt-libraries/django-major-event-log) [![Docs Status](https://img.shields.io/badge/docs-latest-blue.svg)](https://django-major-event-log.readthedocs.org)
+Django Major Event Log App [![Build Status](https://travis-ci.org/unt-libraries/django-major-event-log.svg?branch=master)](https://travis-ci.org/unt-libraries/django-major-event-log) [![Docs Status](https://img.shields.io/badge/docs-latest-blue.svg)](https://django-major-event-log.readthedocs.org) [![PyPI](https://img.shields.io/pypi/v/django-major-event-log.svg)](https://pypi.python.org/pypi/django-major-event-log)
 ============================================================
 
 About
