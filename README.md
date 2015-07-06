@@ -1,4 +1,4 @@
-Django Major Event Log App [![Build Status](https://travis-ci.org/unt-libraries/django-major-event-log.svg?branch=master)](https://travis-ci.org/unt-libraries/django-major-event-log)
+Django Major Event Log App [![Build Status](https://travis-ci.org/unt-libraries/django-major-event-log.svg?branch=master)](https://travis-ci.org/unt-libraries/django-major-event-log) [![Docs Status](https://img.shields.io/badge/docs-latest-blue.svg)](https://django-major-event-log.readthedocs.org)
 ============================================================
 
 About
@@ -48,7 +48,7 @@ Installation
 
 4. Migrate/sync the database
 
-        $ python manage.py migrate major-event-log
+        $ python manage.py migrate
 
 5. Configure static files
 
