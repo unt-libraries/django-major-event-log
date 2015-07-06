@@ -50,10 +50,6 @@ Installation
 
         $ python manage.py migrate
 
-5. Configure static files
-
-        STATIC_URL = '/static/'
-
 
 License
 -------------------------

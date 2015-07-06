@@ -45,9 +45,3 @@ Installing
    ::
 
        $ python manage.py migrate major-event-log
-
-5. Configure static files
-
-   ::
-
-       STATIC_URL = '/static/'
