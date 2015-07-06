@@ -1,4 +1,4 @@
-Django Major Event Log App [![Build Status](https://travis-ci.org/unt-libraries/django-major-event-log.svg?branch=master)](https://travis-ci.org/unt-libraries/django-major-event-log)
+Django Major Event Log App [![Build Status](https://travis-ci.org/unt-libraries/django-major-event-log.svg?branch=master)](https://travis-ci.org/unt-libraries/django-major-event-log) [![Docs Status](https://img.shields.io/badge/docs-latest-blue.svg)](https://django-major-event-log.readthedocs.org) [![PyPI](https://img.shields.io/pypi/v/django-major-event-log.svg)](https://pypi.python.org/pypi/django-major-event-log)
 ============================================================
 
 About
@@ -43,16 +43,12 @@ Installation
         urlpatterns = [
           url(r'^admin/', include(admin.site.urls)),
           url(r'^major-event-log/', include('major_event_log.urls',
-            namespace="major-event-log"))
+            namespace='major-event-log'))
         ]
 
 4. Migrate/sync the database
 
-        $ python manage.py migrate major-event-log
-
-5. Configure static files
-
-        STATIC_URL = '/static/'
+        $ python manage.py migrate
 
 
 License

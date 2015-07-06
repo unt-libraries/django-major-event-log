@@ -37,17 +37,11 @@ Installing
        urlpatterns = [
          url(r'^admin/', include(admin.site.urls)),
          url(r'^major-event-log/', include('major_event_log.urls',
-           namespace="major-event-log"))
+           namespace='major-event-log'))
        ]
 
 4. Migrate/sync the database
 
    ::
 
-       $ python manage.py migrate major-event-log
-
-5. Configure static files
-
-   ::
-
-       STATIC_URL = '/static/'
+       $ python manage.py migrate
