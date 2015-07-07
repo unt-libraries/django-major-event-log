@@ -3,7 +3,7 @@ Developing
 
 Install the requirements
 
-::
+.. code-block:: sh
 
     $ pip install -r requirements-dev.txt
 
@@ -11,26 +11,26 @@ Install the requirements
 
 Clone the git repository:
 
-::
+.. code-block:: sh
 
     $ git clone https://github.com/unt-libraries/django-major-event-log
     $ cd django-major-event-log
 
 Initialize the database
 
-::
+.. code-block:: sh
 
     $ python manage.py migrate
 
 Create a superuser so you can create test events
 
-::
+.. code-block:: sh
 
     $ python manage.py createsuperuser
 
 Start the development server
 
-::
+.. code-block:: sh
 
     $ python manage.py runserver
 
@@ -43,13 +43,13 @@ Testing
 
 To run the tests in the development environment:
 
-::
+.. code-block:: sh
 
     $ python manage.py test ./tests
 
 You can also run the tests with Tox:
 
-::
+.. code-block:: sh
 
     $ [sudo] pip install tox
     $ tox

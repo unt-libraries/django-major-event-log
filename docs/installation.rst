@@ -12,13 +12,13 @@ Installing
 
 1. Install the app
 
-   ::
+   .. code-block:: sh
 
        $ pip install major-event-log
 
 2. Add app and all dependencies to INSTALLED\_APPS.
 
-   ::
+   .. code-block:: python
 
        INSTALLED_APPS = (
          'django.contrib.admin',
@@ -32,7 +32,7 @@ Installing
 
 3. Include the URLs
 
-   ::
+   .. code-block:: python
 
        urlpatterns = [
          url(r'^admin/', include(admin.site.urls)),
@@ -42,6 +42,6 @@ Installing
 
 4. Migrate/sync the database
 
-   ::
+   .. code-block:: sh
 
        $ python manage.py migrate
