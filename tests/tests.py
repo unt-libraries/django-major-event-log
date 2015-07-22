@@ -175,25 +175,58 @@ class TestFeed(TestCase):
         self.assertEqual(len(entries), 10)
 
     def test_page_below_zero(self):
-        """Check that a query for a page < 0 receives an HTTP 404 error."""
+        """Check that a query for a page < 0 redirects to page 1."""
         url = reverse('major-event-log:feed')
-        response = self.client.get(url, {'p': -2})
-        self.assertEqual(response.status_code, 404)
+        response = self.client.get(url, {'p': -4})
+        feed = etree.fromstring(response.content)
+
+        link = feed.xpath(
+            '/ns:feed/ns:link[@rel=\'self\']',
+            namespaces={'ns': 'http://www.w3.org/2005/Atom'}
+        )
+        self.assertTrue('/feed/?p=1' in link[0].attrib.get('href'))
 
     def test_page_zero(self):
-        """Check that a query for a page 0 receives an HTTP 404 error."""
+        """Check that a query for page 0 redirects to page 1."""
         url = reverse('major-event-log:feed')
         response = self.client.get(url, {'p': 0})
-        self.assertEqual(response.status_code, 404)
+        feed = etree.fromstring(response.content)
+
+        link = feed.xpath(
+            '/ns:feed/ns:link[@rel=\'self\']',
+            namespaces={'ns': 'http://www.w3.org/2005/Atom'}
+        )
+        self.assertTrue('/feed/?p=1' in link[0].attrib.get('href'))
 
     def test_page_beyond_last(self):
         """
-        Check that a query for a page beyond the last page will receive an
-        HTTP 404 error.
+        Check that a query for a page beyond the last page will be redirected
+        to page 1.
         """
         url = reverse('major-event-log:feed')
-        response = self.client.get(url, {'p': 100})
-        self.assertEqual(response.status_code, 404)
+        response = self.client.get(url, {'p': 10000})
+        feed = etree.fromstring(response.content)
+
+        link = feed.xpath(
+            '/ns:feed/ns:link[@rel=\'self\']',
+            namespaces={'ns': 'http://www.w3.org/2005/Atom'}
+        )
+        self.assertTrue('/feed/?p=1' in link[0].attrib.get('href'))
+
+    def test_page_not_integer(self):
+        """
+        Check that a query for a page that is not an integer will be redirected
+        to page 1.
+        """
+        url = reverse('major-event-log:feed')
+        response = self.client.get(url, {'p': 'five'})
+        feed = etree.fromstring(response.content)
+
+        link = feed.xpath(
+            '/ns:feed/ns:link[@rel=\'self\']',
+            namespaces={'ns': 'http://www.w3.org/2005/Atom'}
+        )
+        self.assertTrue('/feed/?p=1' in link[0].attrib.get('href'))
 
 
 class TestTemplateUsed(TestCase):
