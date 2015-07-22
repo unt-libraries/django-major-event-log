@@ -4,6 +4,7 @@ from django.utils.feedgenerator import Atom1Feed, rfc3339_date
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.core.paginator import Paginator, InvalidPage
 from django.contrib.syndication.views import Feed
+from django.http import Http404
 
 from .models import Event
 
@@ -117,7 +118,7 @@ class PaginatedFeedMixin(object):
         try:
             return self.paginator.page(self.page)
         except InvalidPage:
-            return self.paginator.page(1)
+            raise Http404("Invalid page number.")
 
     def get_page_kwargs(self):
         """Returns the keyword arguments for the page links.
