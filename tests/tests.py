@@ -174,6 +174,36 @@ class TestFeed(TestCase):
         )
         self.assertEqual(len(entries), 10)
 
+    def test_page_below_zero(self):
+        """Check that a query for a page < 0 receives an HTTP 404 error."""
+        url = reverse('major-event-log:feed')
+        response = self.client.get(url, {'p': -4})
+        self.assertEqual(response.status_code, 404)
+
+    def test_page_zero(self):
+        """Check that a query for page 0 receives an HTTP 404 error."""
+        url = reverse('major-event-log:feed')
+        response = self.client.get(url, {'p': 0})
+        self.assertEqual(response.status_code, 404)
+
+    def test_page_beyond_last(self):
+        """
+        Check that a query for a page beyond the last page receives an
+        HTTP 404 error.
+        """
+        url = reverse('major-event-log:feed')
+        response = self.client.get(url, {'p': 10000})
+        self.assertEqual(response.status_code, 404)
+
+    def test_page_not_integer(self):
+        """
+        Check that a query for a page that is not an integer receives an
+        HTTP 404 error.
+        """
+        url = reverse('major-event-log:feed')
+        response = self.client.get(url, {'p': 'five'})
+        self.assertEqual(response.status_code, 404)
+
 
 class TestTemplateUsed(TestCase):
     """Test that the correct template is called by the views."""
