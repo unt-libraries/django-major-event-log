@@ -2,8 +2,9 @@
 
 from django.utils.feedgenerator import Atom1Feed, rfc3339_date
 from django.core.urlresolvers import reverse, reverse_lazy
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, EmptyPage
 from django.contrib.syndication.views import Feed
+from django.http import Http404
 
 from .models import Event
 
@@ -114,7 +115,10 @@ class PaginatedFeedMixin(object):
 
     def get_current_page(self):
         """Get the current page of the Paginator."""
-        return self.paginator.page(self.page)
+        try:
+            return self.paginator.page(self.page)
+        except EmptyPage:
+            raise Http404("Page has no contents. Index may be out of range.")
 
     def get_page_kwargs(self):
         """Returns the keyword arguments for the page links.
