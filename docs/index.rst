@@ -6,9 +6,12 @@
 About
 =====
 
-The Major Event Log Django app is intended to document major events related to
-the preservation of data. These events are specifically created to follow the
-`PREMIS <http://www.loc.gov/standards/premis/>`_ standards for events set forth by the Library of Congress.
+This Django application is designed to keep track of digital preservation events
+using the `PREMIS <http://www.loc.gov/standards/premis/schemas.html>`_ Event model.
+The app takes care of both creating and viewing these events. The admin site is
+responsible for managing the actual events, which includes creating them as well as
+making modifications to the event date, contact info, description, etc. The other
+pages are responsible for displaying events with various levels of detail.
 
 
 Table of Contents

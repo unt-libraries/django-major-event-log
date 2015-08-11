@@ -8,12 +8,12 @@ Django Major Event Log App
 About
 --------------------------
 
-This Django application is designed to keep track of major events in the PREMIS
-format.  The app takes care of both creating and viewing these events. The
-admin site is responsible for managing the actual events, which includes
-creating them as well as making modifications to the event date, contact info,
-description, etc. The other pages are responsible for displaying events with
-various levels of detail.
+This Django application is designed to keep track of digital preservation events using the
+[PREMIS](http://www.loc.gov/standards/premis/schemas.html) Event model. The app
+takes care of both creating and viewing these events. The admin site is responsible
+for managing the actual events, which includes creating them as well as making modifications
+to the event date, contact info, description, etc. The other pages are responsible for
+displaying events with various levels of detail.
 
 
 Requirements
