@@ -2,6 +2,13 @@ Change Log
 ==========
 
 
+x.x.x
+-----
+
+* Expanded tests to cover more Python and Django versions.
+* Expanded stated Django and Python compatibility.
+
+
 0.1.1
 -----
 

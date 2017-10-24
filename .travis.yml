@@ -5,14 +5,34 @@ env:
     - TOX_ENV=flake8
     - TOX_ENV=py27-django18
     - TOX_ENV=py34-django18
+    - TOX_ENV=py35-django18
+    - TOX_ENV=py36-django18
     - TOX_ENV=py27-django19
     - TOX_ENV=py34-django19
+    - TOX_ENV=py35-django19
+    - TOX_ENV=py36-django19
+    - TOX_ENV=py27-django110
+    - TOX_ENV=py34-django110
+    - TOX_ENV=py35-django110
+    - TOX_ENV=py36-django110
+    - TOX_ENV=py27-django111
+    - TOX_ENV=py34-django111
+    - TOX_ENV=py35-django111
+    - TOX_ENV=py36-django111
     - TOX_ENV=py27-djangomaster
     - TOX_ENV=py34-djangomaster
+    - TOX_ENV=py35-djangomaster
+    - TOX_ENV=py36-djangomaster
 matrix:
     allow_failures:
+        - env: TOX_ENV=py27-django111
+        - env: TOX_ENV=py34-django111
+        - env: TOX_ENV=py35-django111
+        - env: TOX_ENV=py36-django111
         - env: TOX_ENV=py27-djangomaster
         - env: TOX_ENV=py34-djangomaster
+        - env: TOX_ENV=py35-djangomaster
+        - env: TOX_ENV=py36-djangomaster
 install:
     - pip install tox
 script:
