@@ -20,8 +20,7 @@ class Event(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=100)
     detail = models.TextField()
-    outcome = models.CharField(max_length='80',
-                               choices=OUTCOME_CHOICES)
+    outcome = models.CharField(max_length=80, choices=OUTCOME_CHOICES)
     outcome_detail = models.TextField()
     # Date of the event, NOT the date of entry.
     date = models.DateTimeField()
