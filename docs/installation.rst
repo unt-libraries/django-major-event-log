@@ -4,8 +4,8 @@ Installation
 Requirements
 ------------
 
--  Django == 1.8
--  Python >= 2.7
+-  Django 1.8 - 1.11
+-  Python 2.7, 3.4 - 3.6
 
 Installing
 ----------

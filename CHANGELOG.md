@@ -2,11 +2,13 @@ Change Log
 ==========
 
 
-x.x.x
+0.1.2
 -----
 
 * Expanded tests to cover more Python and Django versions.
 * Expanded stated Django and Python compatibility.
+* Changed string definition of max_length for charfield to an integer.
+* Now works on Django 1.11
 
 
 0.1.1
