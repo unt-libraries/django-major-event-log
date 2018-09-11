@@ -3,6 +3,7 @@
 /mysite
 /templates
 /dist
+/build
 *.pyc
 *.swp
 *.egg-info
