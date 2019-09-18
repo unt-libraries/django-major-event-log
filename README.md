@@ -19,8 +19,8 @@ displaying events with various levels of detail.
 Requirements
 --------------------------
 
-- Django 1.8 - 1.11
-- Python 2.7, 3.4-3.6
+- Django 1.11
+- Python 2.7, 3.5-3.7
 
 
 Installation
