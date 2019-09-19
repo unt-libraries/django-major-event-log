@@ -8,6 +8,6 @@ python:
 env:
     - DJANGO=1.11
 install:
-    - pip install tox-travis
+    - pip install tox
 script:
     - tox
