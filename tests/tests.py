@@ -2,7 +2,7 @@ import os
 
 from lxml import etree
 
-from django.core.urlresolvers import reverse, resolve
+from django.urls import reverse, resolve
 from django.test import TestCase, RequestFactory
 from django.utils import timezone
 from django.http import Http404
