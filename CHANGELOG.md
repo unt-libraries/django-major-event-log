@@ -6,7 +6,7 @@ Change Log
 -----
 
 * Upgraded to Django 2.2.
-* Removed support Django 1.11 and versions below.
+* Removed support for Django 1.11 and versions below.
 * Removed support for Python 2.7.
 
 
