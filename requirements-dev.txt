@@ -1,2 +1,2 @@
 -r requirements-test.txt
-django~=1.11.15
+django~=2.2.17

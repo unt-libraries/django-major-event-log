@@ -19,8 +19,8 @@ displaying events with various levels of detail.
 Requirements
 --------------------------
 
-- Django 1.11
-- Python 2.7, 3.5-3.7
+- Django 2.2
+- Python 3.5-3.7
 
 
 Installation
@@ -47,9 +47,9 @@ Installation
 3.  Include the URLs
     ```python
           urlpatterns = [
-            url(r'^admin/', include(admin.site.urls)),
-            url(r'^major-event-log/', include('major_event_log.urls',
-              namespace='major-event-log'))
+            path('admin/', admin.site.urls),
+            path('major-event-log/', include('major_event_log.urls',
+                namespace='major-event-log'))
           ]
     ```
 
@@ -74,6 +74,7 @@ Contributors:
 
 * [Gio Gottardi](https://github.com/somexpert)
 * [Damon Kelley](https://github.com/damonkelley)
+* [Madhulika Bayyavarapu](https://github.com/madhulika95b)
 
 
 Developing/Testing
