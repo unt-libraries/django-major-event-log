@@ -36,8 +36,8 @@ Installing
 
        urlpatterns = [
          path('admin/', admin.site.urls),
-         path('major-event-log/', include('major_event_log.urls',
-             namespace='major-event-log'))
+         path('major-event-log/', include(('major_event_log.urls', 'major-event-log'),
+             namespace="major-event-log"))
        ]
 
 4. Migrate/sync the database

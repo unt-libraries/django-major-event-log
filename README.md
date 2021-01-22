@@ -48,7 +48,8 @@ Installation
     ```python
           urlpatterns = [
             path('admin/', admin.site.urls),
-            path('major-event-log/', include('major_event_log.urls'))
+            path('major-event-log/', include(('major_event_log.urls', 'major-event-log'),
+                namespace="major-event-log"))
           ]
     ```
 
