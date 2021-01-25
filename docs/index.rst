@@ -30,3 +30,4 @@ Contributors
 
 - `Gio Gottardi <http://github.com/somexpert/>`_
 - `Damon Kelley <http://github.com/damonkelley/>`_
+- `Madhulika Bayyavarapu <http://github.com/madhulika95b/>`_

@@ -4,8 +4,8 @@ Installation
 Requirements
 ------------
 
--  Django 1.8 - 1.11
--  Python 2.7, 3.4 - 3.6
+-  Django 2.2
+-  Python 3.5 - 3.7
 
 Installing
 ----------
@@ -35,9 +35,9 @@ Installing
    .. code-block:: python
 
        urlpatterns = [
-         url(r'^admin/', include(admin.site.urls)),
-         url(r'^major-event-log/', include('major_event_log.urls',
-           namespace='major-event-log'))
+         path('admin/', admin.site.urls),
+         path('major-event-log/', include(('major_event_log.urls', 'major-event-log'),
+             namespace="major-event-log"))
        ]
 
 4. Migrate/sync the database

@@ -1,7 +1,7 @@
 """Creates the Atom feed for the major PREMIS events."""
 
 from django.utils.feedgenerator import Atom1Feed, rfc3339_date
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.core.paginator import Paginator, InvalidPage
 from django.contrib.syndication.views import Feed
 from django.http import Http404
@@ -88,11 +88,10 @@ class MajorEventLogFeed(PaginatedAtom1FeedMixin, Atom1Feed):
     """Custom Atom Feed for Event objects.
 
     The only changes between this custom feed and the base Atom Feed
-    are that this feed specifies its mime_type as 'application/xml',
-    pagination is added, and the 'alternate' link is removed.
+    are that pagination is added, and the 'alternate' link is removed.
     """
 
-    mime_type = 'application/xml'
+    pass
 
 
 class PaginatedFeedMixin(object):

@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='django-major-event-log',
-    version='0.1.2',
+    version='1.0.0',
     packages=find_packages(exclude=['tests*']),
     description='Django app for keeping track of major premis events.',
     long_description='See the home page for more information.',
@@ -15,10 +15,8 @@ setup(
     classifiers=[
         'Natural Language :: English',
         'Environment :: Web Environment',
-        'Framework :: Django :: 1.11',
+        'Framework :: Django :: 2.2',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
