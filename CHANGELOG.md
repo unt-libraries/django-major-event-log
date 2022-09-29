@@ -8,6 +8,9 @@ Change Log
 * Upgraded to Django 2.2.
 * Removed support for Django 1.11 and versions below.
 * Removed support for Python 2.7.
+* Replaced Travis with Github Actions.
+* Added Python 3.8 and 3.9 to testing.
+* Removed Python 3.5 from testing.
 
 
 0.1.2

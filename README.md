@@ -20,7 +20,7 @@ Requirements
 --------------------------
 
 - Django 2.2
-- Python 3.5-3.7
+- Python 3.6-3.7
 
 
 Installation
@@ -28,7 +28,7 @@ Installation
 
 1.  Install the app
     ```sh
-          $ pip install major-event-log
+          $ pip install django-major-event-log
     ```
 
 2.  Add app and all dependencies to INSTALLED_APPS.
