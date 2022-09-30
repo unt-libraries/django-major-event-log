@@ -28,7 +28,11 @@ Installation
 
 1.  Install the app
     ```sh
-          $ pip install django-major-event-log
+          $ git clone git@github.com:unt-libraries/django-major-event-log.git
+
+          $ cd django-major-event-log
+          
+          $ python setup.py install
     ```
 
 2.  Add app and all dependencies to INSTALLED_APPS.
