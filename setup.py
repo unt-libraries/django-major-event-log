@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='django-major-event-log',
-    version='1.0.0',
+    version='1.1.0',
     packages=find_packages(exclude=['tests*']),
     description='Django app for keeping track of major premis events.',
     long_description='See the home page for more information.',
