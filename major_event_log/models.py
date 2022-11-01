@@ -32,7 +32,7 @@ class Event(models.Model):
     contact_email = models.EmailField()
 
     def get_absolute_url(self):
-        return (reverse('major-event-log:event_details', args=[self.id]))
+        return reverse('major-event-log:event_details', args=[self.id])
 
     def is_success(self):
         return self.outcome == self.SUCCESS

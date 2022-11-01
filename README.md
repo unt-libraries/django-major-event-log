@@ -79,6 +79,7 @@ Contributors:
 * [Gio Gottardi](https://github.com/somexpert)
 * [Damon Kelley](https://github.com/damonkelley)
 * [Madhulika Bayyavarapu](https://github.com/madhulika95b)
+* [Gracie Flores-Hays](https://github.com/gracieflores)
 
 
 Developing/Testing
