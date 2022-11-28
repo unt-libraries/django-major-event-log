@@ -2,7 +2,7 @@ Change Log
 ==========
 
 
-1.1.0
+2.0.0
 -----
 * Upgraded to Django 4.1.
 * Removed support for Django 2.2.
