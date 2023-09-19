@@ -8,3 +8,4 @@
 *.swp
 *.egg-info
 /docs/_*
+.python-version

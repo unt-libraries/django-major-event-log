@@ -19,7 +19,7 @@ displaying events with various levels of detail.
 Requirements
 --------------------------
 
-- Django 4.1
+- Django 4.2
 - Python 3.8-3.10
 
 
