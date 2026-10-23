@@ -19,8 +19,8 @@ displaying events with various levels of detail.
 Requirements
 --------------------------
 
-- Django 4.2
-- Python 3.8-3.10
+- Django 6.1
+- Python 3.12-3.14
 
 
 Installation
@@ -32,7 +32,7 @@ Installation
 
           $ cd django-major-event-log
           
-          $ python setup.py install
+          $ pip install .
     ```
 
 2.  Add app and all dependencies to INSTALLED_APPS.
@@ -80,6 +80,34 @@ Contributors:
 * [Damon Kelley](https://github.com/damonkelley)
 * [Madhulika Bayyavarapu](https://github.com/madhulika95b)
 * [Gracie Flores-Hays](https://github.com/gracieflores)
+* [Trey Clark](https://github.com/clarktr1)
+
+
+Testing
+-------------------------
+
+1.  Install the app with its test dependencies
+    ```sh
+          $ pip install -e ".[test]"
+    ```
+
+2.  Run the tests
+    ```sh
+          $ pytest
+    ```
+
+3.  Run the linter
+    ```sh
+          $ ruff check .
+    ```
+
+To run the tests against every supported Python version (3.12-3.14) plus the linter, use tox:
+```sh
+      $ pip install tox
+      $ tox
+```
+
+A single environment can be run with `tox -e`, e.g. `tox -e py314` or `tox -e py314-ruff`.
 
 
 Developing/Testing

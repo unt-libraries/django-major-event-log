@@ -2,6 +2,19 @@ Change Log
 ==========
 
 
+4.0.0
+-----
+
+* Upgraded to Django 6.1.
+* Removed support for Django 4.2.
+* Removed support for Python 3.8 - 3.10.
+* Added support for Python 3.12 - 3.14.
+* Replaced setup.py, tox.ini, and requirements with pyproject.toml.
+* Replaced flake8 with ruff for linting.
+* Bundled the xlink and xml XSD schemas with the tests so schema validation
+  no longer fetches remote files (lxml 6 can no longer load schemas over HTTP).
+
+
 3.0.0
 -----
 
