@@ -9,17 +9,17 @@ from django.http import Http404
 from .models import Event
 
 
-class PaginatedAtom1FeedMixin(object):
+class PaginatedAtom1FeedMixin:
     """Mixin to enable pagination for feeds using Atom1Feed"""
 
     def _create_link_attr(self, rel, page):
         """Helper function to compose the attributes dictionary argument
         that handler.addQuickElement accepts.
         """
-        href = u'{0}?{1}={2}'.format(
+        href = '{0}?{1}={2}'.format(
             self.feed['link'], self.feed['page_field'], page)
 
-        return {u'rel': rel, u'href': href}
+        return {'rel': rel, 'href': href}
 
     def add_root_elements(self, handler):
         """This method overrides the Atom1Feed.add_root_elements
@@ -30,32 +30,32 @@ class PaginatedAtom1FeedMixin(object):
 
         if self.feed['feed_url'] is not None:
             handler.addQuickElement(
-                u'link',
+                'link',
                 '',
-                self._create_link_attr(u'self', self.feed['cr_page'])
+                self._create_link_attr('self', self.feed['cr_page'])
             )
 
         handler.addQuickElement(
-            u'link', '', self._create_link_attr(u'first', 1))
+            'link', '', self._create_link_attr('first', 1))
 
         handler.addQuickElement(
-            u'link',
+            'link',
             '',
-            self._create_link_attr(u'last', self.feed['last_page'])
+            self._create_link_attr('last', self.feed['last_page'])
         )
 
         if self.feed.get('prev_page', None) is not None:
             handler.addQuickElement(
-                u'link',
+                'link',
                 '',
-                self._create_link_attr(u'previous', self.feed['prev_page'])
+                self._create_link_attr('previous', self.feed['prev_page'])
             )
 
         if self.feed.get('next_page', None) is not None:
             handler.addQuickElement(
-                u'link',
+                'link',
                 '',
-                self._create_link_attr(u'next', self.feed['next_page'])
+                self._create_link_attr('next', self.feed['next_page'])
             )
 
         handler.addQuickElement('id', self.feed['id'])
@@ -94,7 +94,7 @@ class MajorEventLogFeed(PaginatedAtom1FeedMixin, Atom1Feed):
     pass
 
 
-class PaginatedFeedMixin(object):
+class PaginatedFeedMixin:
     """Feed mixin to enable pagination."""
 
     paginator = None
